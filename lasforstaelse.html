@@ -257,389 +257,267 @@ let total = 0;
 
 const texts = [
 
-  {
-    level: "BAS",
-    title: "Texto 1 – Presentación",
-    text: `Hola, me llamo Ana y tengo quince años. Vivo en Estocolmo con mi madre, mi padre y mi hermano. Hablo sueco, inglés y un poco de español. En la escuela tengo muchas asignaturas, pero me gusta más español porque es divertido. No me gustan mucho las matemáticas porque son difíciles. Después de la escuela escucho música o hablo con mis amigos.`,
-    questions: [
-      {
-        q: "¿Qué podemos entender sobre la vida de Ana?",
-        a: [
-          "Trabaja y vive sola",
-          "Vive con su familia y estudia",
-          "Viaja mucho por el mundo",
-          "No va a la escuela"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Cuál es su actitud hacia las matemáticas?",
-        a: [
-          "Le encantan",
-          "No tiene opinión",
-          "Le resultan difíciles",
-          "Quiere estudiarlas más"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Por qué le gusta el español?",
-        a: [
-          "Porque es obligatorio",
-          "Porque es fácil",
-          "Porque es divertido",
-          "Porque lo usa en casa"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué significa “después de la escuela” en el texto?",
-        a: [
-          "Antes de ir a la escuela",
-          "Durante las clases",
-          "Cuando termina el día escolar",
-          "El fin de semana"
-        ],
-        c: 2
-      }
-    ]
-  },
+/* ======================= BAS ======================= */
 
-  {
-    level: "BAS",
-    title: "Texto 2 – Mi familia",
-    text: `Me llamo Carlos. En mi familia hay cinco personas: mi madre, mi padre, mis dos hermanas y yo. Mi madre se llama Laura y trabaja en una tienda. Mi padre es profesor. Mis hermanas son pequeñas y hablan mucho. Me gusta estar con mi familia, pero a veces necesito tiempo solo.`,
-    questions: [
-      {
-        q: "¿Cómo es la familia de Carlos?",
-        a: [
-          "Pequeña y tranquila",
-          "Grande y complicada",
-          "De tamaño medio con niños pequeños",
-          "Solo viven dos personas"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué podemos entender sobre sus hermanas?",
-        a: [
-          "Son mayores que él",
-          "Son calladas",
-          "Hablan mucho",
-          "No viven en casa"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué indica “pero a veces necesito tiempo solo”?",
-        a: [
-          "No le gusta su familia",
-          "Nunca está en casa",
-          "A veces quiere estar solo",
-          "Quiere cambiar de familia"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Cuál es la idea principal?",
-        a: [
-          "Su trabajo",
-          "Su escuela",
-          "Descripción de su familia",
-          "Sus amigos"
-        ],
-        c: 2
-      }
-    ]
-  },
+{
+level: "BAS",
+title: "Texto 1 – Presentación",
+text: `Hola, me llamo Ana y tengo quince años. Vivo en Estocolmo con mi madre, mi padre y mi hermano. En mi familia hablamos sueco en casa, pero yo también estudio inglés y español en la escuela.
 
-  {
-    level: "BAS",
-    title: "Texto 3 – En la tienda",
-    text: `Voy a una tienda porque necesito ropa nueva. Me gustan las camisetas azules y verdes. La dependienta me pregunta qué talla necesito. Digo que talla mediana. Al final compro una camiseta azul porque es bonita y no es muy cara.`,
-    questions: [
-      {
-        q: "¿Qué podemos entender sobre la compra?",
-        a: [
-          "Compra algo caro",
-          "Compra algo práctico y económico",
-          "No compra nada",
-          "Compra ropa para otra persona"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué influye en su decisión?",
-        a: [
-          "La marca",
-          "El precio y el aspecto",
-          "La opinión de la dependienta",
-          "El tamaño de la tienda"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué significa “talla mediana”?",
-        a: [
-          "Color",
-          "Precio",
-          "Tamaño",
-          "Material"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Cuál es el propósito del texto?",
-        a: [
-          "Contar una experiencia de compra",
-          "Explicar cómo funciona una tienda",
-          "Comparar precios",
-          "Hablar de moda en general"
-        ],
-        c: 0
-      }
-    ]
-  },
+Normalmente me levanto a las siete y voy a la escuela a las ocho. Tengo muchas asignaturas, pero me gusta más español porque es divertido y diferente. No me gustan mucho las matemáticas porque a veces son difíciles y no siempre las entiendo.
 
-  {
-    level: "MELLAN",
-    title: "Texto 4 – Rutina",
-    text: `Tengo una rutina bastante normal. Me levanto temprano y voy a la escuela. Me gusta la educación física porque puedo moverme, pero también me interesa la historia. Después de la escuela hago los deberes y, si tengo tiempo, veo a mis amigos.`,
-    questions: [
-      {
-        q: "¿Cómo es su rutina?",
-        a: [
-          "Muy diferente",
-          "Bastante normal",
-          "Muy complicada",
-          "Muy corta"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué podemos entender sobre sus intereses?",
-        a: [
-          "Solo le gusta el deporte",
-          "Solo le gustan las materias teóricas",
-          "Tiene intereses variados",
-          "No le gusta estudiar"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué indica “si tengo tiempo”?",
-        a: [
-          "Siempre tiene tiempo",
-          "Nunca tiene tiempo",
-          "Depende del día",
-          "Tiene mucho tiempo"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Cuál es la idea principal?",
-        a: [
-          "Descripción de su rutina diaria",
-          "Opinión sobre la escuela",
-          "Relación con sus amigos",
-          "Problemas en la escuela"
-        ],
-        c: 0
-      }
-    ]
-  },
+Después de la escuela suelo escuchar música o hablar con mis amigos. Los fines de semana descanso más y paso tiempo con mi familia.`,
+questions: [
+{
+q:"¿Qué podemos entender sobre la vida de Ana?",
+a:["Trabaja todo el día","Vive con su familia y estudia","Viaja constantemente","No va a la escuela"],
+c:1
+},
+{
+q:"¿Por qué no le gustan las matemáticas?",
+a:["Porque son aburridas","Porque son difíciles","Porque no tiene profesor","Porque no tiene tiempo"],
+c:1
+},
+{
+q:"¿Qué hace normalmente después de la escuela?",
+a:["Estudia matemáticas","Trabaja","Escucha música o habla con amigos","Viaja"],
+c:2
+},
+{
+q:"¿Cuál es la idea principal del texto?",
+a:["Su trabajo","Su rutina y vida diaria","Un viaje","Sus amigos"],
+c:1
+}
+]
+},
 
-  {
-    level: "MELLAN",
-    title: "Texto 5 – El móvil",
-    text: `Uso el móvil todos los días. Me gusta, pero sé que paso demasiado tiempo con él. Mis padres piensan que debería usarlo menos. Yo entiendo su opinión, pero creo que también puede ser útil.`,
-    questions: [
-      {
-        q: "¿Cuál es el conflicto principal?",
-        a: [
-          "No tiene móvil",
-          "Problemas técnicos",
-          "Uso excesivo del móvil",
-          "Falta de tiempo libre"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué significa “aunque” en este contexto?",
-        a: [
-          "Porque",
-          "Aunque / a pesar de",
-          "Entonces",
-          "También"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Cuál es la opinión del hablante?",
-        a: [
-          "El móvil es solo negativo",
-          "El móvil es inútil",
-          "Tiene ventajas y desventajas",
-          "No tiene opinión"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué podemos entender sobre los padres?",
-        a: [
-          "No saben usar tecnología",
-          "Están preocupados",
-          "Quieren comprar otro móvil",
-          "No dicen nada"
-        ],
-        c: 1
-      }
-    ]
-  },
+{
+level: "BAS",
+title: "Texto 2 – Mi familia",
+text: `Me llamo Carlos y vivo con mi familia en una ciudad pequeña. En casa somos cinco personas: mis padres, mis dos hermanas y yo.
 
-  {
-    level: "MELLAN",
-    title: "Texto 6 – Viajar",
-    text: `Voy a viajar a España porque quiero conocer la cultura. También quiero practicar el idioma. Estoy un poco nervioso, pero creo que es importante intentar.`,
-    questions: [
-      {
-        q: "¿Cuál es el objetivo principal del viaje?",
-        a: [
-          "Trabajar",
-          "Aprender y experimentar",
-          "Visitar amigos",
-          "Mudarse"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué actitud tiene?",
-        a: [
-          "Seguridad total",
-          "Indiferencia",
-          "Mezcla de nervios y motivación",
-          "Miedo extremo"
-        ],
-        c: 2
-      },
-      {
-        q: "¿Qué significa “intentar” en este contexto?",
-        a: [
-          "Probar algo aunque sea difícil",
-          "Evitar algo",
-          "Olvidar algo",
-          "Decidir algo"
-        ],
-        c: 0
-      },
-      {
-        q: "¿Cuál es la idea principal?",
-        a: [
-          "Viajar para aprender",
-          "Viajar es peligroso",
-          "España es cara",
-          "No le gusta viajar"
-        ],
-        c: 0
-      }
-    ]
-  },
+Mi madre trabaja en una tienda y mi padre es profesor. Mis hermanas son más pequeñas que yo y hablan mucho. A veces es divertido, pero otras veces necesito tranquilidad.
 
-  {
-    level: "UTMANING",
-    title: "Texto 7 – Futuro",
-    text: `He empezado a pensar en mi futuro. No sé exactamente qué quiero hacer, pero me interesan los idiomas porque permiten conocer otras culturas. A veces es difícil, pero me motiva aprender.`,
-    questions: [
-      {
-        q: "¿Qué podemos entender sobre su situación?",
-        a: [
-          "Tiene todo claro",
-          "Está explorando opciones",
-          "No quiere estudiar",
-          "Ya tiene trabajo"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Por qué son importantes los idiomas?",
-        a: [
-          "Porque son fáciles",
-          "Porque permiten conocer otras culturas",
-          "Porque son obligatorios",
-          "Porque todos los hablan"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué indica “aunque es difícil”?",
-        a: [
-          "Va a dejarlo",
-          "Tiene dificultades pero sigue",
-          "No entiende nada",
-          "No quiere continuar"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Cuál es el tono del texto?",
-        a: [
-          "Negativo",
-          "Reflexivo y motivado",
-          "Confundido y enfadado",
-          "Indiferente"
-        ],
-        c: 1
-      }
-    ]
-  },
+Me gusta pasar tiempo con mi familia, especialmente los fines de semana, cuando comemos juntos o vemos películas. Sin embargo, también es importante para mí tener tiempo solo para descansar o escuchar música.`,
+questions: [
+{
+q:"¿Cómo es la familia de Carlos?",
+a:["Muy pequeña","Muy grande","De tamaño medio","Solo dos personas"],
+c:2
+},
+{
+q:"¿Qué podemos entender sobre sus hermanas?",
+a:["Son mayores","Hablan poco","Hablan mucho","No viven en casa"],
+c:2
+},
+{
+q:"¿Qué significa que necesita tranquilidad?",
+a:["Quiere más ruido","Quiere estar solo a veces","Quiere salir","Quiere estudiar"],
+c:1
+},
+{
+q:"¿Cuál es la idea principal?",
+a:["El trabajo","Descripción de su familia y vida en casa","Un problema grave","La escuela"],
+c:1
+}
+]
+},
 
-  {
-    level: "UTMANING",
-    title: "Texto 8 – Medio ambiente",
-    text: `Creo que todos podemos hacer algo por el medio ambiente. No es fácil cambiar hábitos, pero pequeñas acciones pueden ayudar. Intento consumir menos y reciclar más.`,
-    questions: [
-      {
-        q: "¿Cuál es la idea principal?",
-        a: [
-          "El problema es imposible",
-          "Las acciones individuales importan",
-          "Solo los gobiernos pueden ayudar",
-          "No hay solución"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué significa “sin embargo”?",
-        a: [
-          "Porque",
-          "Pero",
-          "Entonces",
-          "También"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué actitud muestra el hablante?",
-        a: [
-          "Pasiva",
-          "Responsable",
-          "Indiferente",
-          "Negativa"
-        ],
-        c: 1
-      },
-      {
-        q: "¿Qué podemos inferir?",
-        a: [
-          "No hace nada",
-          "Intenta cambiar su comportamiento",
-          "No cree en el problema",
-          "Quiere viajar"
-        ],
-        c: 1
-      }
-    ]
-  }
+{
+level: "BAS",
+title: "Texto 3 – En la tienda",
+text: `Hoy voy a una tienda de ropa porque necesito una camiseta nueva. Me gustan las camisetas azules y verdes porque son colores tranquilos.
+
+En la tienda hablo con una dependienta. Ella me pregunta qué talla necesito y yo digo que mediana. También miro el precio porque no quiero gastar demasiado dinero.
+
+Al final compro una camiseta azul porque es bonita, cómoda y no es muy cara. Creo que es una buena decisión.`,
+questions: [
+{
+q:"¿Qué influye en su decisión?",
+a:["Solo el color","El precio y el aspecto","La música","El tamaño de la tienda"],
+c:1
+},
+{
+q:"¿Qué podemos entender sobre la compra?",
+a:["Es una compra impulsiva","Es una decisión pensada","No compra nada","Compra para otra persona"],
+c:1
+},
+{
+q:"¿Qué significa “no gastar demasiado dinero”?",
+a:["Comprar mucho","Ahorrar","Comprar caro","No pagar"],
+c:1
+},
+{
+q:"¿Cuál es el propósito del texto?",
+a:["Describir una compra","Comparar tiendas","Explicar precios","Hablar de moda en general"],
+c:0
+}
+]
+},
+
+/* ======================= MELLAN ======================= */
+
+{
+level: "MELLAN",
+title: "Texto 4 – Rutina",
+text: `Durante la semana tengo una rutina bastante normal. Me levanto temprano y voy a la escuela todos los días. Tengo varias asignaturas, como matemáticas, historia y educación física.
+
+Me gusta educación física porque puedo moverme y no estoy sentado todo el tiempo. También me interesa la historia porque aprendo sobre el pasado y entiendo mejor el mundo.
+
+Después de la escuela suelo hacer los deberes. Si tengo tiempo, veo a mis amigos o juego al fútbol. Algunos días estoy cansado, pero intento organizar mi tiempo para hacer todo.`,
+questions: [
+{
+q:"¿Cómo es su rutina?",
+a:["Muy especial","Bastante normal","Muy difícil","Muy corta"],
+c:1
+},
+{
+q:"¿Qué podemos entender sobre sus intereses?",
+a:["Solo deporte","Solo teoría","Intereses variados","No le gusta nada"],
+c:2
+},
+{
+q:"¿Qué indica “intento organizar mi tiempo”?",
+a:["Tiene problemas","Intenta ser responsable","No hace nada","No estudia"],
+c:1
+},
+{
+q:"¿Cuál es la idea principal?",
+a:["Problemas en la escuela","Descripción de su rutina","Sus amigos","Un viaje"],
+c:1
+}
+]
+},
+
+{
+level: "MELLAN",
+title: "Texto 5 – El móvil",
+text: `Uso el móvil todos los días para hablar con mis amigos, escuchar música y ver vídeos. Me gusta mucho, pero sé que paso demasiado tiempo con él.
+
+Mis padres piensan que debería usarlo menos porque no es bueno estar tantas horas delante de la pantalla. Yo entiendo su opinión, pero también creo que el móvil puede ser útil.
+
+Por ejemplo, puedo aprender cosas nuevas o practicar idiomas. Creo que lo importante es usarlo de forma responsable.`,
+questions: [
+{
+q:"¿Cuál es el conflicto principal?",
+a:["No tiene móvil","Uso excesivo","Problemas técnicos","No tiene amigos"],
+c:1
+},
+{
+q:"¿Qué actitud tiene el hablante?",
+a:["Negativa","Equilibrada","Indiferente","Confundida"],
+c:1
+},
+{
+q:"¿Qué podemos entender sobre los padres?",
+a:["No saben nada","Están preocupados","No opinan","Quieren comprar otro móvil"],
+c:1
+},
+{
+q:"¿Cuál es la idea principal?",
+a:["El móvil es malo","El móvil es bueno","Depende del uso","No importa"],
+c:2
+}
+]
+},
+
+{
+level: "MELLAN",
+title: "Texto 6 – Viajar",
+text: `Este verano voy a viajar a España con mi familia. Queremos visitar varias ciudades y conocer la cultura.
+
+Para mí es importante practicar el idioma en situaciones reales, como en tiendas o restaurantes. Estoy un poco nervioso porque no hablo perfectamente, pero quiero intentarlo.
+
+Creo que viajar es una buena forma de aprender porque ves cosas nuevas y entiendes mejor a otras personas.`,
+questions: [
+{
+q:"¿Cuál es el objetivo del viaje?",
+a:["Trabajar","Aprender","Comprar","Descansar"],
+c:1
+},
+{
+q:"¿Qué actitud tiene?",
+a:["Miedo total","Motivación con nervios","Indiferencia","Confusión"],
+c:1
+},
+{
+q:"¿Qué significa “intentarlo”?",
+a:["Evitar","Probar","Olvidar","Decidir"],
+c:1
+},
+{
+q:"¿Cuál es la idea principal?",
+a:["Viajar es caro","Viajar ayuda a aprender","España es mejor","No viajar"],
+c:1
+}
+]
+},
+
+/* ======================= UTMANING ======================= */
+
+{
+level: "UTMANING",
+title: "Texto 7 – Futuro",
+text: `Últimamente he empezado a pensar más en mi futuro. No sé exactamente qué quiero hacer, pero me interesan los idiomas porque permiten conocer otras culturas.
+
+A veces estudiar es difícil, especialmente cuando hay muchas palabras nuevas, pero cuando veo progreso me siento motivado.
+
+Creo que en el futuro me gustaría estudiar o trabajar en otro país. Para mí es importante aprender y seguir desarrollándome.`,
+questions: [
+{
+q:"¿Qué podemos entender sobre su situación?",
+a:["Tiene todo claro","Está explorando opciones","No quiere estudiar","Tiene trabajo"],
+c:1
+},
+{
+q:"¿Qué le motiva?",
+a:["El dinero","El progreso","La familia","Los amigos"],
+c:1
+},
+{
+q:"¿Qué indica el texto?",
+a:["Confusión total","Interés por aprender","Rechazo","Indiferencia"],
+c:1
+},
+{
+q:"¿Cuál es el tono?",
+a:["Negativo","Reflexivo","Enfadado","Indiferente"],
+c:1
+}
+]
+},
+
+{
+level: "UTMANING",
+title: "Texto 8 – Medio ambiente",
+text: `Creo que todos podemos hacer algo por el medio ambiente. No siempre es fácil cambiar hábitos, pero pequeñas acciones pueden marcar la diferencia.
+
+En mi familia reciclamos y tratamos de consumir menos. Antes no pensaba mucho en esto, pero ahora intento ser más responsable.
+
+No creo que una sola persona pueda cambiar todo, pero muchas pequeñas acciones juntas pueden tener un efecto importante.`,
+questions: [
+{
+q:"¿Cuál es la idea principal?",
+a:["Es imposible cambiar","Las acciones pequeñas importan","Solo gobiernos ayudan","No hay problema"],
+c:1
+},
+{
+q:"¿Qué actitud muestra?",
+a:["Pasiva","Responsable","Indiferente","Negativa"],
+c:1
+},
+{
+q:"¿Qué podemos inferir?",
+a:["No hace nada","Está cambiando hábitos","No cree en el problema","Viaja mucho"],
+c:1
+},
+{
+q:"¿Qué significa “marcar la diferencia”?",
+a:["Göra skillnad","Resa","Arbeta","Köpa"],
+c:0
+}
+]
+}
 
 ];
 
