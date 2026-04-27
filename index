@@ -1,1 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Spanska träning</title>
+</head>
+<body>
 
+<h1>Spanska träning</h1>
+
+<ul>
+  <li><a href="lasforstaelse.html">Läsförståelse</a></li>
+  <li><a href="grammatik.html">Grammatik</a></li>
+  <li><a href="diagnos.html">Diagnos</a></li>
+</ul>
+
+</body>
+</html>
