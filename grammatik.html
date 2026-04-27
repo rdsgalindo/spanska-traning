@@ -7,34 +7,254 @@
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f6f2ec;
-  color: #1f2937;
-}
-
-header {
-  background: linear-gradient(135deg, #8b2f16, #b45309);
-  color: white;
-  padding: 30px;
-  text-align: center;
-}
-
-main {
-  max-width: 1000px;
+  font-family: "Times New Roman", serif;
+  background: white;
+  color: black;
+  max-width: 760px;
   margin: auto;
-  padding: 20px;
+  padding: 30px;
+  line-height: 1.6;
+}
+
+h1 {
+  text-align: center;
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 21px;
+  margin-top: 35px;
+  border-bottom: 1px solid black;
+  padding-bottom: 4px;
 }
 
 nav {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 nav a {
-  margin-right: 10px;
-  font-weight: bold;
+  margin: 0 10px;
   text-decoration: none;
-  color: #8b2f16;
+  color: black;
+}
+
+.scorebox {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.question {
+  margin-top: 18px;
+}
+
+button {
+  display: block;
+  margin: 6px 0;
+  padding: 7px;
+  width: 100%;
+  border: 1px solid black;
+  background: white;
+  color: black;
+  text-align: left;
+  font-family: "Times New Roman", serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eeeeee;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+.feedback {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.explain {
+  font-style: italic;
+  margin-top: 5px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 90px;
+  font-family: "Times New Roman", serif;
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid black;
+}
+
+.model {
+  display: none;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+hr {
+  margin: 35px 0;
+  border: none;
+  border-top: 1px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Grammatik – Spanska</h1>
+
+<nav>
+  <a href="index.html">Startsida</a>
+  <a href="lasforstaelse.html">Läsförståelse</a>
+</nav>
+
+<div class="scorebox">
+  Poäng: <span id="score">0</span> / <span id="total">0</span>
+</div>
+
+<div id="content"></div>
+
+<script>
+let score = 0;
+let total = 0;
+
+const sections = [
+
+{
+title: "1. Presens",
+questions: [
+{q:"Yo ___ en Suecia.",a:["vive","vivo","vives","viven"],c:1,exp:"Yo → vivo."},
+{q:"Tú ___ español.",a:["hablo","hablas","habla","hablan"],c:1,exp:"Tú → hablas."},
+{q:"Ella ___ en la escuela.",a:["estudio","estudia","estudian","estudias"],c:1,exp:"Ella → estudia."},
+{q:"Nosotros ___ en Estocolmo.",a:["vivimos","viven","vive","vivo"],c:0,exp:"Nosotros → vivimos."},
+{q:"Ellos ___ fútbol.",a:["juega","juegan","juego","jugamos"],c:1,exp:"Ellos → juegan."},
+{q:"Mi madre ___ mucho.",a:["trabaja","trabajo","trabajas","trabajan"],c:0,exp:"Mi madre = ella → trabaja."}
+]
+},
+
+{
+title: "2. Gustar",
+questions: [
+{q:"Me ___ la música.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"La música är singular → gusta."},
+{q:"Me ___ los perros.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Los perros är plural → gustan."},
+{q:"Me ___ estudiar español.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Verb i infinitiv räknas som singular → gusta."},
+{q:"A mi hermano le ___ los videojuegos.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Los videojuegos är plural → gustan."},
+{q:"A Ana le ___ la historia.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"La historia är singular → gusta."},
+{q:"No me ___ las matemáticas.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Las matemáticas är plural → gustan."}
+]
+},
+
+{
+title: "3. Ser / estar / hay",
+questions: [
+{q:"Yo ___ estudiante.",a:["soy","estoy","hay","tengo"],c:0,exp:"Identitet → ser."},
+{q:"Yo ___ cansado hoy.",a:["soy","estoy","hay","tengo"],c:1,exp:"Tillfälligt tillstånd → estar."},
+{q:"Madrid ___ en España.",a:["es","está","hay","tiene"],c:1,exp:"Plats → estar."},
+{q:"Mi escuela ___ grande.",a:["es","está","hay","tiene"],c:0,exp:"Beskrivning/egenskap → ser."},
+{q:"___ muchos estudiantes en la clase.",a:["Es","Está","Hay","Tiene"],c:2,exp:"Det finns → hay."},
+{q:"La puerta ___ abierta.",a:["es","está","hay","tiene"],c:1,exp:"Tillstånd → estar."}
+]
+},
+
+{
+title: "4. Perfekt",
+questions: [
+{q:"He ___ mis deberes.",a:["hecho","hacer","hago","hice"],c:0,exp:"He + particip. Hacer → hecho."},
+{q:"He ___ una película.",a:["visto","ver","veo","vi"],c:0,exp:"Ver → visto."},
+{q:"Hemos ___ al cine.",a:["ido","ir","vamos","fuimos"],c:0,exp:"Ir → ido."},
+{q:"¿Qué has ___ hoy?",a:["hecho","hacer","haces","hiciste"],c:0,exp:"Has + particip → hecho."},
+{q:"Han ___ mucho español.",a:["estudiado","estudiar","estudian","estudiaron"],c:0,exp:"Estudiar → estudiado."},
+{q:"Nunca he ___ en México.",a:["estado","estar","estoy","estuve"],c:0,exp:"He + estado."}
+]
+},
+
+{
+title: "5. Ir a + infinitiv",
+questions: [
+{q:"Voy a ___ español.",a:["estudio","estudiar","estudia","estudiado"],c:1,exp:"Efter voy a kommer infinitiv."},
+{q:"Vamos a ___ a España.",a:["viajar","viajamos","viajan","viajado"],c:0,exp:"Vamos a + infinitiv."},
+{q:"Ella va a ___ mañana.",a:["trabajar","trabaja","trabajó","trabajando"],c:0,exp:"Va a + infinitiv."},
+{q:"Mis amigos van a ___ fútbol.",a:["jugar","juegan","juega","jugado"],c:0,exp:"Van a + infinitiv."},
+{q:"Voy a ___ más tarde.",a:["comer","como","come","comido"],c:0,exp:"Voy a + infinitiv."},
+{q:"¿Vas a ___ el examen?",a:["hacer","haces","hecho","hiciste"],c:0,exp:"Vas a + infinitiv."}
+]
+},
+
+{
+title: "6. Tener que + infinitiv",
+questions: [
+{q:"Tengo que ___ hoy.",a:["estudiar","estudio","estudia","estudiado"],c:0,exp:"Tener que + infinitiv."},
+{q:"Ella tiene que ___ temprano.",a:["levantarse","se levanta","levanta","levantado"],c:0,exp:"Efter tiene que används infinitiv."},
+{q:"Tenemos que ___ los deberes.",a:["hacer","hacemos","hecho","hizo"],c:0,exp:"Tenemos que + infinitiv."},
+{q:"No tengo que ___ mañana.",a:["trabajar","trabajo","trabaja","trabajado"],c:0,exp:"Tengo que + infinitiv."},
+{q:"Mis amigos tienen que ___ más.",a:["practicar","practican","practica","practicado"],c:0,exp:"Tienen que + infinitiv."},
+{q:"¿Tienes que ___ en casa?",a:["quedarte","te quedas","quedas","quedado"],c:0,exp:"Reflexiv infinitiv kan stå efter tener que."}
+]
+},
+
+{
+title: "7. Reflexiva verb",
+questions: [
+{q:"Yo ___ levanto a las siete.",a:["me","te","se","nos"],c:0,exp:"Yo → me."},
+{q:"Tú ___ levantas temprano.",a:["me","te","se","nos"],c:1,exp:"Tú → te."},
+{q:"Ella ___ levanta tarde.",a:["me","te","se","nos"],c:2,exp:"Ella → se."},
+{q:"Nosotros ___ acostamos a las diez.",a:["me","te","se","nos"],c:3,exp:"Nosotros → nos."},
+{q:"Mis padres ___ levantan temprano.",a:["me","te","se","nos"],c:2,exp:"Mis padres = ellos → se."},
+{q:"Después de la escuela, yo ___ relajo.",a:["me","te","se","nos"],c:0,exp:"Yo → me relajo."}
+]
+},
+
+{
+title: "8. Frågeord",
+questions: [
+{q:"¿___ vives?",a:["Qué","Dónde","Cuándo","Quién"],c:1,exp:"Dónde = var."},
+{q:"¿___ años tienes?",a:["Cuántos","Cuándo","Dónde","Quién"],c:0,exp:"Cuántos años = hur många år."},
+{q:"¿___ te llamas?",a:["Cómo","Qué","Dónde","Por qué"],c:0,exp:"Cómo te llamas = vad heter du?"},
+{q:"¿___ estudias español?",a:["Por qué","Dónde","Quién","Cuánto"],c:0,exp:"Por qué = varför."},
+{q:"¿___ es tu profesor?",a:["Quién","Dónde","Cuándo","Cuántos"],c:0,exp:"Quién = vem."},
+{q:"¿___ tienes clase de español?",a:["Cuándo","Quién","Qué","Dónde está"],c:0,exp:"Cuándo = när."}
+]
+},
+
+{
+title: "9. Negationer",
+questions: [
+{q:"No tengo ___.",a:["algo","nada","todo","siempre"],c:1,exp:"No + nada = inget."},
+{q:"Nunca ___ al cine.",a:["voy","va","ir","ido"],c:0,exp:"Nunca + presens: nunca voy."},
+{q:"No quiero ___ más.",a:["nada","algo","todo","siempre"],c:0,exp:"No quiero nada más = jag vill inte ha något mer."},
+{q:"No conozco a ___.",a:["nadie","alguien","todo","siempre"],c:0,exp:"Nadie = ingen."},
+{q:"No me gusta ___.",a:["tampoco","también","siempre","todo"],c:0,exp:"Tampoco används vid negativt medhåll."},
+{q:"No estudio español ___ los días.",a:["todos","nada","nadie","nunca"],c:0,exp:"Todos los días = varje dag."}
+]
+},
+
+{
+title: "10. Adjektiv och kongruens",
+questions: [
+{q:"Una camiseta ___.",a:["roja","rojo","rojos","rojas"],c:0,exp:"Camiseta är feminin singular → roja."},
+{q:"Un pantalón ___.",a:["negro","negra","negras","negros"],c:0,exp:"Pantalón är maskulin singular → negro."},
+{q:"Unas chicas ___.",a:["simpáticas","simpático","simpática","simpáticos"],c:0,exp:"Chicas är feminin plural → simpáticas."},
+{q:"Unos libros ___.",a:["interesantes","interesante","interesanta","interesantas"],c:0,exp:"Plural → interesantes."},
+{q:"La escuela es ___.",a:["grande","grandes","granda","grandos"],c:0,exp:"Grande fungerar för maskulin/feminin singular."},
+{q:"Las clases son ___.",a:["difíciles","difícil","difícila","difícils"],c:0,exp:"Plural → difíciles."}
+]
+}
+];  color: #8b2f16;
 }
 
 .section {
