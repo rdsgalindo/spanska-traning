@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
 <head>
   <meta charset="UTF-8">
   <title>Spanska träning</title>
 </head>
 <body>
 
-<h1>Spanska träning</h1>
+  <h1>Spanska träning</h1>
+  <p>Välj vad du vill träna:</p>
 
-<ul>
-  <li><a href="lasforstaelse.html">Läsförståelse</a></li>
-  <li><a href="grammatik.html">Grammatik</a></li>
-  <li><a href="diagnos.html">Diagnos</a></li>
-</ul>
+  <ul>
+    <li><a href="lasforstaelse.html">Läsförståelse</a></li>
+    <li><a href="grammatik.html">Grammatik</a></li>
+    <li><a href="diagnos.html">Diagnos</a></li>
+  </ul>
 
 </body>
 </html>
