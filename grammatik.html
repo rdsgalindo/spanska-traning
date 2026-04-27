@@ -18,18 +18,15 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 26px;
 }
 
 h2 {
-  font-size: 21px;
   margin-top: 35px;
   border-bottom: 1px solid black;
-  padding-bottom: 4px;
 }
 
 nav {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -57,33 +54,20 @@ button {
   width: 100%;
   border: 1px solid black;
   background: white;
-  color: black;
-  text-align: left;
   font-family: "Times New Roman", serif;
-  font-size: 16px;
   cursor: pointer;
 }
 
 button:hover {
-  background: #eeeeee;
-}
-
-button:disabled {
-  cursor: default;
+  background: #eee;
 }
 
 .feedback {
   font-weight: bold;
-  margin-top: 5px;
 }
 
-.correct {
-  color: green;
-}
-
-.wrong {
-  color: red;
-}
+.correct { color: green; }
+.wrong { color: red; }
 
 .explain {
   font-style: italic;
@@ -93,23 +77,20 @@ button:disabled {
 textarea {
   width: 100%;
   min-height: 90px;
-  font-family: "Times New Roman", serif;
-  font-size: 16px;
-  padding: 8px;
   border: 1px solid black;
+  padding: 8px;
+  font-family: "Times New Roman", serif;
 }
 
 .model {
   display: none;
+  margin-top: 10px;
   border: 1px solid black;
   padding: 10px;
-  margin-top: 10px;
 }
 
 hr {
-  margin: 35px 0;
-  border: none;
-  border-top: 1px solid black;
+  margin: 40px 0;
 }
 </style>
 </head>
@@ -124,335 +105,118 @@ hr {
 </nav>
 
 <div class="scorebox">
-  Poäng: <span id="score">0</span> / <span id="total">0</span>
+Poäng: <span id="score">0</span> / <span id="total">0</span>
 </div>
 
 <div id="content"></div>
 
 <script>
+
 let score = 0;
 let total = 0;
 
 const sections = [
 
 {
-title: "1. Presens",
-questions: [
-{q:"Yo ___ en Suecia.",a:["vive","vivo","vives","viven"],c:1,exp:"Yo → vivo."},
-{q:"Tú ___ español.",a:["hablo","hablas","habla","hablan"],c:1,exp:"Tú → hablas."},
-{q:"Ella ___ en la escuela.",a:["estudio","estudia","estudian","estudias"],c:1,exp:"Ella → estudia."},
-{q:"Nosotros ___ en Estocolmo.",a:["vivimos","viven","vive","vivo"],c:0,exp:"Nosotros → vivimos."},
-{q:"Ellos ___ fútbol.",a:["juega","juegan","juego","jugamos"],c:1,exp:"Ellos → juegan."},
-{q:"Mi madre ___ mucho.",a:["trabaja","trabajo","trabajas","trabajan"],c:0,exp:"Mi madre = ella → trabaja."}
-]
-},
-
-{
-title: "2. Gustar",
-questions: [
-{q:"Me ___ la música.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"La música är singular → gusta."},
-{q:"Me ___ los perros.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Los perros är plural → gustan."},
-{q:"Me ___ estudiar español.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Verb i infinitiv räknas som singular → gusta."},
-{q:"A mi hermano le ___ los videojuegos.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Los videojuegos är plural → gustan."},
-{q:"A Ana le ___ la historia.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"La historia är singular → gusta."},
-{q:"No me ___ las matemáticas.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Las matemáticas är plural → gustan."}
-]
-},
-
-{
-title: "3. Ser / estar / hay",
-questions: [
-{q:"Yo ___ estudiante.",a:["soy","estoy","hay","tengo"],c:0,exp:"Identitet → ser."},
-{q:"Yo ___ cansado hoy.",a:["soy","estoy","hay","tengo"],c:1,exp:"Tillfälligt tillstånd → estar."},
-{q:"Madrid ___ en España.",a:["es","está","hay","tiene"],c:1,exp:"Plats → estar."},
-{q:"Mi escuela ___ grande.",a:["es","está","hay","tiene"],c:0,exp:"Beskrivning/egenskap → ser."},
-{q:"___ muchos estudiantes en la clase.",a:["Es","Está","Hay","Tiene"],c:2,exp:"Det finns → hay."},
-{q:"La puerta ___ abierta.",a:["es","está","hay","tiene"],c:1,exp:"Tillstånd → estar."}
-]
-},
-
-{
-title: "4. Perfekt",
-questions: [
-{q:"He ___ mis deberes.",a:["hecho","hacer","hago","hice"],c:0,exp:"He + particip. Hacer → hecho."},
-{q:"He ___ una película.",a:["visto","ver","veo","vi"],c:0,exp:"Ver → visto."},
-{q:"Hemos ___ al cine.",a:["ido","ir","vamos","fuimos"],c:0,exp:"Ir → ido."},
-{q:"¿Qué has ___ hoy?",a:["hecho","hacer","haces","hiciste"],c:0,exp:"Has + particip → hecho."},
-{q:"Han ___ mucho español.",a:["estudiado","estudiar","estudian","estudiaron"],c:0,exp:"Estudiar → estudiado."},
-{q:"Nunca he ___ en México.",a:["estado","estar","estoy","estuve"],c:0,exp:"He + estado."}
-]
-},
-
-{
-title: "5. Ir a + infinitiv",
-questions: [
-{q:"Voy a ___ español.",a:["estudio","estudiar","estudia","estudiado"],c:1,exp:"Efter voy a kommer infinitiv."},
-{q:"Vamos a ___ a España.",a:["viajar","viajamos","viajan","viajado"],c:0,exp:"Vamos a + infinitiv."},
-{q:"Ella va a ___ mañana.",a:["trabajar","trabaja","trabajó","trabajando"],c:0,exp:"Va a + infinitiv."},
-{q:"Mis amigos van a ___ fútbol.",a:["jugar","juegan","juega","jugado"],c:0,exp:"Van a + infinitiv."},
-{q:"Voy a ___ más tarde.",a:["comer","como","come","comido"],c:0,exp:"Voy a + infinitiv."},
-{q:"¿Vas a ___ el examen?",a:["hacer","haces","hecho","hiciste"],c:0,exp:"Vas a + infinitiv."}
-]
-},
-
-{
-title: "6. Tener que + infinitiv",
-questions: [
-{q:"Tengo que ___ hoy.",a:["estudiar","estudio","estudia","estudiado"],c:0,exp:"Tener que + infinitiv."},
-{q:"Ella tiene que ___ temprano.",a:["levantarse","se levanta","levanta","levantado"],c:0,exp:"Efter tiene que används infinitiv."},
-{q:"Tenemos que ___ los deberes.",a:["hacer","hacemos","hecho","hizo"],c:0,exp:"Tenemos que + infinitiv."},
-{q:"No tengo que ___ mañana.",a:["trabajar","trabajo","trabaja","trabajado"],c:0,exp:"Tengo que + infinitiv."},
-{q:"Mis amigos tienen que ___ más.",a:["practicar","practican","practica","practicado"],c:0,exp:"Tienen que + infinitiv."},
-{q:"¿Tienes que ___ en casa?",a:["quedarte","te quedas","quedas","quedado"],c:0,exp:"Reflexiv infinitiv kan stå efter tener que."}
-]
-},
-
-{
-title: "7. Reflexiva verb",
-questions: [
-{q:"Yo ___ levanto a las siete.",a:["me","te","se","nos"],c:0,exp:"Yo → me."},
-{q:"Tú ___ levantas temprano.",a:["me","te","se","nos"],c:1,exp:"Tú → te."},
-{q:"Ella ___ levanta tarde.",a:["me","te","se","nos"],c:2,exp:"Ella → se."},
-{q:"Nosotros ___ acostamos a las diez.",a:["me","te","se","nos"],c:3,exp:"Nosotros → nos."},
-{q:"Mis padres ___ levantan temprano.",a:["me","te","se","nos"],c:2,exp:"Mis padres = ellos → se."},
-{q:"Después de la escuela, yo ___ relajo.",a:["me","te","se","nos"],c:0,exp:"Yo → me relajo."}
-]
-},
-
-{
-title: "8. Frågeord",
-questions: [
-{q:"¿___ vives?",a:["Qué","Dónde","Cuándo","Quién"],c:1,exp:"Dónde = var."},
-{q:"¿___ años tienes?",a:["Cuántos","Cuándo","Dónde","Quién"],c:0,exp:"Cuántos años = hur många år."},
-{q:"¿___ te llamas?",a:["Cómo","Qué","Dónde","Por qué"],c:0,exp:"Cómo te llamas = vad heter du?"},
-{q:"¿___ estudias español?",a:["Por qué","Dónde","Quién","Cuánto"],c:0,exp:"Por qué = varför."},
-{q:"¿___ es tu profesor?",a:["Quién","Dónde","Cuándo","Cuántos"],c:0,exp:"Quién = vem."},
-{q:"¿___ tienes clase de español?",a:["Cuándo","Quién","Qué","Dónde está"],c:0,exp:"Cuándo = när."}
-]
-},
-
-{
-title: "9. Negationer",
-questions: [
-{q:"No tengo ___.",a:["algo","nada","todo","siempre"],c:1,exp:"No + nada = inget."},
-{q:"Nunca ___ al cine.",a:["voy","va","ir","ido"],c:0,exp:"Nunca + presens: nunca voy."},
-{q:"No quiero ___ más.",a:["nada","algo","todo","siempre"],c:0,exp:"No quiero nada más = jag vill inte ha något mer."},
-{q:"No conozco a ___.",a:["nadie","alguien","todo","siempre"],c:0,exp:"Nadie = ingen."},
-{q:"No me gusta ___.",a:["tampoco","también","siempre","todo"],c:0,exp:"Tampoco används vid negativt medhåll."},
-{q:"No estudio español ___ los días.",a:["todos","nada","nadie","nunca"],c:0,exp:"Todos los días = varje dag."}
-]
-},
-
-{
-title: "10. Adjektiv och kongruens",
-questions: [
-{q:"Una camiseta ___.",a:["roja","rojo","rojos","rojas"],c:0,exp:"Camiseta är feminin singular → roja."},
-{q:"Un pantalón ___.",a:["negro","negra","negras","negros"],c:0,exp:"Pantalón är maskulin singular → negro."},
-{q:"Unas chicas ___.",a:["simpáticas","simpático","simpática","simpáticos"],c:0,exp:"Chicas är feminin plural → simpáticas."},
-{q:"Unos libros ___.",a:["interesantes","interesante","interesanta","interesantas"],c:0,exp:"Plural → interesantes."},
-{q:"La escuela es ___.",a:["grande","grandes","granda","grandos"],c:0,exp:"Grande fungerar för maskulin/feminin singular."},
-{q:"Las clases son ___.",a:["difíciles","difícil","difícila","difícils"],c:0,exp:"Plural → difíciles."}
-]
-}
-];  color: #8b2f16;
-}
-
-.section {
-  background: white;
-  padding: 20px;
-  margin: 25px 0;
-  border-radius: 14px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.explain {
-  background: #fff4e8;
-  padding: 14px;
-  border-left: 5px solid #8b2f16;
-  margin-bottom: 15px;
-  border-radius: 8px;
-}
-
-.question {
-  margin-top: 15px;
-}
-
-button {
-  display: block;
-  margin: 6px 0;
-  padding: 10px;
-  width: 100%;
-  border-radius: 8px;
-  border: none;
-  background: #8b2f16;
-  color: white;
-  text-align: left;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #6f2410;
-}
-
-.feedback {
-  font-weight: bold;
-  margin-top: 6px;
-}
-
-.correct { color: green; }
-.wrong { color: red; }
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>Grammatik – Spanska</h1>
-</header>
-
-<main>
-
-<nav>
-  <a href="index.html">Startsida</a>
-  <a href="lasforstaelse.html">Läsförståelse</a>
-</nav>
-
-<div id="content"></div>
-
-</main>
-
-<script>
-const sections = [
-
-{
 title: "Presens",
-explain: `
-<b>Regel:</b><br>
-yo hablo, tú hablas, él habla<br><br>
-<b>Exempel:</b><br>
-Yo vivo en Suecia.<br>
-Ella estudia mucho.
-`,
 questions: [
-{q:"Yo ___ en Suecia",a:["vive","vivo","vives","viven"],c:1,exp:"Yo → vivo"},
-{q:"Ella ___ español",a:["hablo","hablas","habla","hablan"],c:2,exp:"Ella → habla"}
+{q:"Yo ___ en Suecia.",a:["vive","vivo","vives","viven"],c:1,exp:"Yo → vivo"},
+{q:"Tú ___ español.",a:["hablo","hablas","habla","hablan"],c:1,exp:"Tú → hablas"},
+{q:"Ella ___ en casa.",a:["vive","vivo","vives","viven"],c:0,exp:"Ella → vive"},
+{q:"Nosotros ___ fútbol.",a:["jugamos","juegan","juega","juego"],c:0,exp:"Nosotros → jugamos"},
+{q:"Ellos ___ mucho.",a:["estudian","estudia","estudio","estudiamos"],c:0,exp:"Ellos → estudian"},
+{q:"Mi madre ___ en una tienda.",a:["trabaja","trabajo","trabajas","trabajan"],c:0,exp:"Tredje person → trabaja"}
 ]
 },
 
 {
 title: "Gustar",
-explain: `
-<b>Regel:</b><br>
-gusta + singular<br>
-gustan + plural<br><br>
-<b>Exempel:</b><br>
-Me gusta la música.<br>
-Me gustan los perros.
-`,
 questions: [
-{q:"Me ___ la música",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Singular → gusta"},
-{q:"Me ___ los perros",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Plural → gustan"}
+{q:"Me ___ la música.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Singular → gusta"},
+{q:"Me ___ los libros.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Plural → gustan"},
+{q:"Me ___ estudiar.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Verb → gusta"},
+{q:"A Ana le ___ el fútbol.",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Singular → gusta"},
+{q:"No me ___ las matemáticas.",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Plural → gustan"}
 ]
 },
 
 {
 title: "Ser / Estar",
-explain: `
-<b>Ser = permanent</b><br>
-<b>Estar = tillfälligt</b><br><br>
-Soy estudiante.<br>
-Estoy cansado.
-`,
 questions: [
-{q:"Yo ___ estudiante",a:["soy","estoy","eres","está"],c:0,exp:"Identitet → ser"},
-{q:"Yo ___ cansado",a:["soy","estoy","eres","es"],c:1,exp:"Tillfälligt → estar"}
+{q:"Yo ___ estudiante.",a:["soy","estoy","es","está"],c:0,exp:"Identitet → ser"},
+{q:"Yo ___ cansado.",a:["soy","estoy","es","está"],c:1,exp:"Tillstånd → estar"},
+{q:"Madrid ___ en España.",a:["es","está","soy","hay"],c:1,exp:"Plats → estar"},
+{q:"La casa ___ grande.",a:["es","está","hay","tiene"],c:0,exp:"Egenskap → ser"},
+{q:"La puerta ___ abierta.",a:["es","está","hay","tiene"],c:1,exp:"Tillstånd → estar"}
 ]
 },
 
 {
 title: "Perfekt",
-explain: `
-<b>He + particip</b><br>
-he comido, he estudiado
-`,
 questions: [
-{q:"He ___ mucho",a:["estudio","estudiar","estudiado","estudia"],c:2,exp:"Perfekt → particip"}
-]
-},
-
-{
-title: "Ir a + infinitiv",
-explain: `
-Voy a estudiar<br>
-Vamos a viajar
-`,
-questions: [
-{q:"Voy a ___ español",a:["estudio","estudiar","estudia","estudiado"],c:1,exp:"Efter 'voy a' → infinitiv"}
-]
-},
-
-{
-title: "Negationer",
-explain: `
-No, nunca, nada<br><br>
-No tengo nada.<br>
-Nunca voy allí.
-`,
-questions: [
-{q:"No tengo ___",a:["algo","nada","siempre","todo"],c:1,exp:"Negation → nada"}
+{q:"He ___ español.",a:["estudiado","estudio","estudiar","estudia"],c:0,exp:"He + particip"},
+{q:"He ___ una película.",a:["visto","ver","veo","vi"],c:0,exp:"Ver → visto"},
+{q:"Hemos ___ al cine.",a:["ido","ir","vamos","fuimos"],c:0,exp:"Ir → ido"},
+{q:"Nunca he ___ en España.",a:["estado","estar","estoy","estuve"],c:0,exp:"He + estado"}
 ]
 },
 
 {
 title: "Por / Para",
-explain: `
-Por = orsak<br>
-Para = syfte<br><br>
-Trabajo para aprender.
-`,
 questions: [
-{q:"Trabajo ___ aprender",a:["por","para","con","sin"],c:1,exp:"Syfte → para"}
+{q:"Trabajo ___ aprender.",a:["por","para","con","sin"],c:1,exp:"Syfte → para"},
+{q:"Lo hago ___ ti.",a:["por","para","con","sin"],c:0,exp:"Orsak → por"},
+{q:"Estudio ___ el examen.",a:["por","para","con","sin"],c:1,exp:"Syfte → para"}
+]
+},
+
+{
+title: "Frågeord",
+questions: [
+{q:"¿___ vives?",a:["Qué","Dónde","Cuándo","Quién"],c:1,exp:"Dónde = var"},
+{q:"¿___ te llamas?",a:["Cómo","Qué","Dónde","Por qué"],c:0,exp:"Cómo te llamas"},
+{q:"¿___ estudias español?",a:["Por qué","Dónde","Quién","Cuánto"],c:0,exp:"Por qué = varför"}
 ]
 }
 
 ];
 
 function render(){
+
 const container = document.getElementById("content");
 
 sections.forEach(sec => {
 
-const div = document.createElement("div");
-div.className = "section";
+const section = document.createElement("section");
 
 const title = document.createElement("h2");
 title.textContent = sec.title;
-div.appendChild(title);
+section.appendChild(title);
 
-const explain = document.createElement("div");
-explain.className = "explain";
-explain.innerHTML = sec.explain;
-div.appendChild(explain);
+sec.questions.forEach((q, index) => {
 
-sec.questions.forEach(q => {
+total++;
 
 const qDiv = document.createElement("div");
 qDiv.className = "question";
 
 const qText = document.createElement("p");
-qText.innerHTML = "<b>" + q.q + "</b>";
+qText.innerHTML = "<b>" + (index+1) + ". " + q.q + "</b>";
 qDiv.appendChild(qText);
 
 const feedback = document.createElement("p");
-feedback.className = "feedback";
+const explanation = document.createElement("p");
+explanation.className = "explain";
 
 let locked = false;
 
 q.a.forEach((ans, i) => {
+
 const btn = document.createElement("button");
 btn.textContent = ans;
 
 btn.onclick = () => {
+
 if (locked) return;
 locked = true;
 
@@ -461,30 +225,102 @@ buttons.forEach(b => b.disabled = true);
 
 if (i === q.c){
 btn.style.background = "green";
-feedback.textContent = "Rätt. " + q.exp;
+btn.style.color = "white";
+feedback.textContent = "Rätt.";
 feedback.className = "feedback correct";
+score++;
 } else {
 btn.style.background = "red";
+btn.style.color = "white";
 buttons[q.c].style.background = "green";
-feedback.textContent = "Fel. " + q.exp;
+buttons[q.c].style.color = "white";
+feedback.textContent = "Fel.";
 feedback.className = "feedback wrong";
 }
+
+explanation.textContent = q.exp;
+document.getElementById("score").textContent = score;
+
 };
 
 qDiv.appendChild(btn);
+
 });
 
 qDiv.appendChild(feedback);
-div.appendChild(qDiv);
+qDiv.appendChild(explanation);
+section.appendChild(qDiv);
 
 });
 
-container.appendChild(div);
+container.appendChild(section);
 
 });
+
+document.getElementById("total").textContent = total;
+
+addWritingSection();
+}
+
+function addWritingSection(){
+
+const container = document.getElementById("content");
+
+const section = document.createElement("section");
+
+const title = document.createElement("h2");
+title.textContent = "Skrivuppgifter";
+section.appendChild(title);
+
+const tasks = [
+{
+task:"Skriv 4 meningar om din dag (presens).",
+model:"Yo me levanto a las siete. Voy a la escuela. Estudio español. Juego fútbol."
+},
+{
+task:"Skriv vad du har gjort idag (perfekt).",
+model:"Hoy he estudiado español. He hablado con mis amigos."
+},
+{
+task:"Beskriv dig själv.",
+model:"Soy estudiante. Soy simpático. Estoy cansado hoy."
+}
+];
+
+tasks.forEach(t => {
+
+const div = document.createElement("div");
+
+const p = document.createElement("p");
+p.textContent = t.task;
+
+const textarea = document.createElement("textarea");
+
+const btn = document.createElement("button");
+btn.textContent = "Visa exempel";
+
+const model = document.createElement("div");
+model.className = "model";
+model.textContent = t.model;
+
+btn.onclick = () => {
+model.style.display = "block";
+};
+
+div.appendChild(p);
+div.appendChild(textarea);
+div.appendChild(btn);
+div.appendChild(model);
+
+section.appendChild(div);
+
+});
+
+container.appendChild(section);
 }
 
 render();
+
 </script>
 
 </body>
