@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Läsförståelse – Spanska</title>
+</head>
+<body>
+
+  <h1>Läsförståelse</h1>
+
+  <p><a href="index.html">Tillbaka till startsidan</a></p>
+
+  <h2>Texto 1 – Escuela y rutina</h2>
+
+  <p>
+    Hola, me llamo Erik y tengo quince años. Vivo en una ciudad pequeña en Suecia con mi familia.
+    Normalmente me levanto a las siete y desayuno antes de ir a la escuela.
+    Las clases empiezan a las ocho y media y terminan a las tres.
+  </p>
+
+  <p>
+    En la escuela tengo varias asignaturas, pero mis favoritas son historia y educación física.
+    Me gusta historia porque es interesante y me ayuda a entender el mundo.
+    En cambio, no me gustan las matemáticas porque a veces son difíciles.
+  </p>
+
+  <h3>Frågor</h3>
+
+  <p><b>1. ¿Dónde vive Erik?</b></p>
+  <button onclick="check(this, false)">En una ciudad grande en España</button>
+  <button onclick="check(this, true)">En una ciudad pequeña en Suecia</button>
+  <button onclick="check(this, false)">En una ciudad pequeña en España</button>
+
+  <p><b>2. ¿A qué hora empiezan las clases?</b></p>
+  <button onclick="check(this, false)">A las siete</button>
+  <button onclick="check(this, false)">A las ocho</button>
+  <button onclick="check(this, true)">A las ocho y media</button>
+
+  <p><b>3. ¿Por qué le gusta historia?</b></p>
+  <button onclick="check(this, false)">Porque es fácil</button>
+  <button onclick="check(this, true)">Porque es interesante y útil</button>
+  <button onclick="check(this, false)">Porque no tiene deberes</button>
+
+  <script>
+    function check(button, correct) {
+      if (correct) {
+        button.style.backgroundColor = "green";
+        button.style.color = "white";
+      } else {
+        button.style.backgroundColor = "red";
+        button.style.color = "white";
+      }
+    }
+  </script>
+
+</body>
+</html>
