@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammatik – Spanska</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f6f2ec;
+  color: #1f2937;
+}
+
+header {
+  background: linear-gradient(135deg, #8b2f16, #b45309);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+nav {
+  margin-bottom: 20px;
+}
+
+nav a {
+  margin-right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #8b2f16;
+}
+
+.section {
+  background: white;
+  padding: 20px;
+  margin: 25px 0;
+  border-radius: 14px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.explain {
+  background: #fff4e8;
+  padding: 14px;
+  border-left: 5px solid #8b2f16;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.question {
+  margin-top: 15px;
+}
+
+button {
+  display: block;
+  margin: 6px 0;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background: #8b2f16;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #6f2410;
+}
+
+.feedback {
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.correct { color: green; }
+.wrong { color: red; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Grammatik – Spanska</h1>
+</header>
+
+<main>
+
+<nav>
+  <a href="index.html">Startsida</a>
+  <a href="lasforstaelse.html">Läsförståelse</a>
+</nav>
+
+<div id="content"></div>
+
+</main>
+
+<script>
+const sections = [
+
+{
+title: "Presens",
+explain: `
+<b>Regel:</b><br>
+yo hablo, tú hablas, él habla<br><br>
+<b>Exempel:</b><br>
+Yo vivo en Suecia.<br>
+Ella estudia mucho.
+`,
+questions: [
+{q:"Yo ___ en Suecia",a:["vive","vivo","vives","viven"],c:1,exp:"Yo → vivo"},
+{q:"Ella ___ español",a:["hablo","hablas","habla","hablan"],c:2,exp:"Ella → habla"}
+]
+},
+
+{
+title: "Gustar",
+explain: `
+<b>Regel:</b><br>
+gusta + singular<br>
+gustan + plural<br><br>
+<b>Exempel:</b><br>
+Me gusta la música.<br>
+Me gustan los perros.
+`,
+questions: [
+{q:"Me ___ la música",a:["gusta","gustan","gusto","gustas"],c:0,exp:"Singular → gusta"},
+{q:"Me ___ los perros",a:["gusta","gustan","gusto","gustas"],c:1,exp:"Plural → gustan"}
+]
+},
+
+{
+title: "Ser / Estar",
+explain: `
+<b>Ser = permanent</b><br>
+<b>Estar = tillfälligt</b><br><br>
+Soy estudiante.<br>
+Estoy cansado.
+`,
+questions: [
+{q:"Yo ___ estudiante",a:["soy","estoy","eres","está"],c:0,exp:"Identitet → ser"},
+{q:"Yo ___ cansado",a:["soy","estoy","eres","es"],c:1,exp:"Tillfälligt → estar"}
+]
+},
+
+{
+title: "Perfekt",
+explain: `
+<b>He + particip</b><br>
+he comido, he estudiado
+`,
+questions: [
+{q:"He ___ mucho",a:["estudio","estudiar","estudiado","estudia"],c:2,exp:"Perfekt → particip"}
+]
+},
+
+{
+title: "Ir a + infinitiv",
+explain: `
+Voy a estudiar<br>
+Vamos a viajar
+`,
+questions: [
+{q:"Voy a ___ español",a:["estudio","estudiar","estudia","estudiado"],c:1,exp:"Efter 'voy a' → infinitiv"}
+]
+},
+
+{
+title: "Negationer",
+explain: `
+No, nunca, nada<br><br>
+No tengo nada.<br>
+Nunca voy allí.
+`,
+questions: [
+{q:"No tengo ___",a:["algo","nada","siempre","todo"],c:1,exp:"Negation → nada"}
+]
+},
+
+{
+title: "Por / Para",
+explain: `
+Por = orsak<br>
+Para = syfte<br><br>
+Trabajo para aprender.
+`,
+questions: [
+{q:"Trabajo ___ aprender",a:["por","para","con","sin"],c:1,exp:"Syfte → para"}
+]
+}
+
+];
+
+function render(){
+const container = document.getElementById("content");
+
+sections.forEach(sec => {
+
+const div = document.createElement("div");
+div.className = "section";
+
+const title = document.createElement("h2");
+title.textContent = sec.title;
+div.appendChild(title);
+
+const explain = document.createElement("div");
+explain.className = "explain";
+explain.innerHTML = sec.explain;
+div.appendChild(explain);
+
+sec.questions.forEach(q => {
+
+const qDiv = document.createElement("div");
+qDiv.className = "question";
+
+const qText = document.createElement("p");
+qText.innerHTML = "<b>" + q.q + "</b>";
+qDiv.appendChild(qText);
+
+const feedback = document.createElement("p");
+feedback.className = "feedback";
+
+let locked = false;
+
+q.a.forEach((ans, i) => {
+const btn = document.createElement("button");
+btn.textContent = ans;
+
+btn.onclick = () => {
+if (locked) return;
+locked = true;
+
+const buttons = qDiv.querySelectorAll("button");
+buttons.forEach(b => b.disabled = true);
+
+if (i === q.c){
+btn.style.background = "green";
+feedback.textContent = "Rätt. " + q.exp;
+feedback.className = "feedback correct";
+} else {
+btn.style.background = "red";
+buttons[q.c].style.background = "green";
+feedback.textContent = "Fel. " + q.exp;
+feedback.className = "feedback wrong";
+}
+};
+
+qDiv.appendChild(btn);
+});
+
+qDiv.appendChild(feedback);
+div.appendChild(qDiv);
+
+});
+
+container.appendChild(div);
+
+});
+}
+
+render();
+</script>
+
+</body>
+</html>
