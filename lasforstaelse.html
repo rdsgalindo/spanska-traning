@@ -1,57 +1,453 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>Läsförståelse – Spanska</title>
+<meta charset="UTF-8">
+<title>Läsförståelse – Spanska</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  color: #1f2937;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  color: #7c2d12;
+}
+
+nav {
+  background: #fff7ed;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+nav a {
+  margin-right: 15px;
+  color: #7c2d12;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.level {
+  background: white;
+  padding: 20px;
+  margin: 25px 0;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.textcard {
+  background: #fff7ed;
+  border-left: 5px solid #7c2d12;
+  padding: 16px;
+  margin: 18px 0;
+  border-radius: 10px;
+}
+
+.question {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+}
+
+button {
+  display: block;
+  margin: 6px 0;
+  padding: 10px;
+  width: 100%;
+  max-width: 750px;
+  border: none;
+  border-radius: 8px;
+  background: #7c2d12;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+}
+
+button:hover {
+  background: #9a3412;
+}
+
+button:disabled {
+  opacity: 0.85;
+  cursor: default;
+}
+
+.feedback {
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.scorebox {
+  background: #fff7ed;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.badge {
+  display: inline-block;
+  background: #fed7aa;
+  color: #7c2d12;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+</style>
 </head>
+
 <body>
 
-  <h1>Läsförståelse</h1>
+<h1>Läsförståelse – Spanska</h1>
 
-  <p><a href="index.html">Tillbaka till startsidan</a></p>
+<nav>
+  <a href="index.html">Startsida</a>
+  <a href="grammatik.html">Grammatik</a>
+  <a href="diagnos.html">Diagnos</a>
+</nav>
 
-  <h2>Texto 1 – Escuela y rutina</h2>
+<div class="scorebox">
+  Total poäng: <span id="score">0</span> / <span id="total">0</span>
+</div>
 
-  <p>
-    Hola, me llamo Erik y tengo quince años. Vivo en una ciudad pequeña en Suecia con mi familia.
-    Normalmente me levanto a las siete y desayuno antes de ir a la escuela.
-    Las clases empiezan a las ocho y media y terminan a las tres.
-  </p>
+<div id="content"></div>
 
-  <p>
-    En la escuela tengo varias asignaturas, pero mis favoritas son historia y educación física.
-    Me gusta historia porque es interesante y me ayuda a entender el mundo.
-    En cambio, no me gustan las matemáticas porque a veces son difíciles.
-  </p>
+<script>
+let score = 0;
+let total = 0;
 
-  <h3>Frågor</h3>
-
-  <p><b>1. ¿Dónde vive Erik?</b></p>
-  <button onclick="check(this, false)">En una ciudad grande en España</button>
-  <button onclick="check(this, true)">En una ciudad pequeña en Suecia</button>
-  <button onclick="check(this, false)">En una ciudad pequeña en España</button>
-
-  <p><b>2. ¿A qué hora empiezan las clases?</b></p>
-  <button onclick="check(this, false)">A las siete</button>
-  <button onclick="check(this, false)">A las ocho</button>
-  <button onclick="check(this, true)">A las ocho y media</button>
-
-  <p><b>3. ¿Por qué le gusta historia?</b></p>
-  <button onclick="check(this, false)">Porque es fácil</button>
-  <button onclick="check(this, true)">Porque es interesante y útil</button>
-  <button onclick="check(this, false)">Porque no tiene deberes</button>
-
-  <script>
-    function check(button, correct) {
-      if (correct) {
-        button.style.backgroundColor = "green";
-        button.style.color = "white";
-      } else {
-        button.style.backgroundColor = "red";
-        button.style.color = "white";
+const texts = [
+  {
+    level: "BAS",
+    title: "Texto 1 – Presentación",
+    text: `Hola, me llamo Ana y tengo quince años. Vivo en Estocolmo con mi madre, mi padre y mi hermano. Hablo sueco, inglés y un poco de español. En la escuela tengo muchas asignaturas, pero me gusta más español porque es divertido. No me gustan mucho las matemáticas porque son difíciles. Después de la escuela escucho música o hablo con mis amigos.`,
+    questions: [
+      {
+        q: "¿Cuántos años tiene Ana?",
+        a: ["Trece", "Catorce", "Quince", "Dieciséis"],
+        c: 2
+      },
+      {
+        q: "¿Dónde vive Ana?",
+        a: ["En Madrid", "En Estocolmo", "En Barcelona", "En México"],
+        c: 1
+      },
+      {
+        q: "¿Qué idiomas habla?",
+        a: ["Solo sueco", "Sueco, inglés y un poco de español", "Español y francés", "Inglés y alemán"],
+        c: 1
+      },
+      {
+        q: "¿Por qué no le gustan las matemáticas?",
+        a: ["Porque son aburridas", "Porque son difíciles", "Porque son fáciles", "Porque no tiene profesor"],
+        c: 1
       }
-    }
-  </script>
+    ]
+  },
+
+  {
+    level: "BAS",
+    title: "Texto 2 – Mi familia",
+    text: `Me llamo Carlos. En mi familia hay cinco personas: mi madre, mi padre, mis dos hermanas y yo. Mi madre se llama Laura y trabaja en una tienda. Mi padre se llama Miguel y es profesor. Mis hermanas son pequeñas. Se llaman Elena y Sofía. Elena tiene ocho años y Sofía tiene diez. Me gusta pasar tiempo con mi familia, pero a veces mis hermanas hablan mucho.`,
+    questions: [
+      {
+        q: "¿Cuántas personas hay en la familia?",
+        a: ["Tres", "Cuatro", "Cinco", "Seis"],
+        c: 2
+      },
+      {
+        q: "¿Qué hace la madre?",
+        a: ["Es profesora", "Trabaja en una tienda", "Es estudiante", "Trabaja en un hospital"],
+        c: 1
+      },
+      {
+        q: "¿Cómo se llaman las hermanas?",
+        a: ["Ana y Sara", "Elena y Sofía", "Laura y Sofía", "María y Elena"],
+        c: 1
+      },
+      {
+        q: "¿Qué problema menciona Carlos?",
+        a: ["Sus hermanas hablan mucho", "No tiene familia", "No le gusta su padre", "No vive con su familia"],
+        c: 0
+      }
+    ]
+  },
+
+  {
+    level: "BAS",
+    title: "Texto 3 – En la tienda",
+    text: `Hoy voy a una tienda de ropa porque necesito una camiseta nueva. Me gustan las camisetas azules, pero también me gusta el color verde. En la tienda hablo con una dependienta. Ella me pregunta qué talla necesito. Yo digo que necesito talla mediana. Al final compro una camiseta azul porque es bonita y no es muy cara.`,
+    questions: [
+      {
+        q: "¿Qué quiere comprar?",
+        a: ["Una chaqueta", "Una camiseta", "Unos zapatos", "Unos pantalones"],
+        c: 1
+      },
+      {
+        q: "¿Qué colores le gustan?",
+        a: ["Rojo y negro", "Azul y verde", "Blanco y amarillo", "Verde y rojo"],
+        c: 1
+      },
+      {
+        q: "¿Qué talla necesita?",
+        a: ["Pequeña", "Grande", "Mediana", "No se sabe"],
+        c: 2
+      },
+      {
+        q: "¿Por qué compra la camiseta azul?",
+        a: ["Porque es bonita y no muy cara", "Porque es muy cara", "Porque es pequeña", "Porque no hay otras"],
+        c: 0
+      }
+    ]
+  },
+
+  {
+    level: "MELLAN",
+    title: "Texto 4 – Una semana normal",
+    text: `Durante la semana tengo una rutina bastante normal. Me levanto a las siete y voy a la escuela a las ocho. Los lunes tengo matemáticas, español e historia. Los martes tengo inglés, ciencias y educación física. Me gusta educación física porque puedo moverme, pero también me interesa la historia porque aprendo sobre el pasado. Después de la escuela suelo hacer los deberes. Si tengo tiempo, juego al fútbol con mis amigos.`,
+    questions: [
+      {
+        q: "¿Cómo es la rutina?",
+        a: ["Muy extraña", "Bastante normal", "Muy difícil", "Muy corta"],
+        c: 1
+      },
+      {
+        q: "¿Qué asignaturas tiene los lunes?",
+        a: ["Inglés, ciencias y educación física", "Matemáticas, español e historia", "Historia, música y arte", "Español, francés y inglés"],
+        c: 1
+      },
+      {
+        q: "¿Por qué le gusta educación física?",
+        a: ["Porque aprende sobre el pasado", "Porque puede moverse", "Porque es difícil", "Porque no hay deberes"],
+        c: 1
+      },
+      {
+        q: "¿Qué significa “suelo hacer los deberes”?",
+        a: ["Jag brukar göra läxorna", "Jag vill göra läxorna", "Jag gjorde läxorna", "Jag gör aldrig läxorna"],
+        c: 0
+      }
+    ]
+  },
+
+  {
+    level: "MELLAN",
+    title: "Texto 5 – El móvil",
+    text: `Uso el móvil todos los días. Lo uso para hablar con mis amigos, escuchar música y ver vídeos. Aunque me gusta mucho, sé que a veces paso demasiado tiempo delante de la pantalla. Mis padres piensan que debería usarlo menos. Yo entiendo su opinión, pero también creo que el móvil puede ser útil si lo usamos de una manera inteligente. Por ejemplo, puedo practicar español con vídeos y aplicaciones.`,
+    questions: [
+      {
+        q: "¿Para qué usa el móvil?",
+        a: ["Solo para estudiar", "Para hablar, escuchar música y ver vídeos", "Solo para llamar a sus padres", "Para trabajar"],
+        c: 1
+      },
+      {
+        q: "¿Qué significa “aunque”?",
+        a: ["även om", "därför att", "också", "därför"],
+        c: 0
+      },
+      {
+        q: "¿Qué opinan sus padres?",
+        a: ["Que debería usarlo más", "Que debería usarlo menos", "Que no debe usarlo nunca", "Que debe comprar otro móvil"],
+        c: 1
+      },
+      {
+        q: "¿Cuál es la opinión del hablante?",
+        a: ["El móvil es siempre malo", "El móvil puede ser útil si se usa bien", "El móvil no sirve para aprender", "Sus padres no entienden nada"],
+        c: 1
+      }
+    ]
+  },
+
+  {
+    level: "MELLAN",
+    title: "Texto 6 – Viajar y aprender",
+    text: `Este verano voy a viajar a España con mi familia. Quiero visitar Madrid y Valencia porque me interesa la cultura española. También quiero practicar español en situaciones reales, por ejemplo en una tienda, en un restaurante o en la calle. Estoy un poco nervioso porque no hablo perfectamente, pero creo que es importante intentar. Cuando viajas, aprendes más que solo palabras: también aprendes cómo viven otras personas.`,
+    questions: [
+      {
+        q: "¿A dónde va a viajar?",
+        a: ["A México", "A España", "A Colombia", "A Chile"],
+        c: 1
+      },
+      {
+        q: "¿Por qué quiere visitar Madrid y Valencia?",
+        a: ["Porque quiere trabajar", "Porque le interesa la cultura", "Porque vive allí", "Porque no le gusta Suecia"],
+        c: 1
+      },
+      {
+        q: "¿Dónde quiere practicar español?",
+        a: ["Solo en la escuela", "En situaciones reales", "Solo en casa", "Solo con su familia"],
+        c: 1
+      },
+      {
+        q: "¿Cuál es la idea principal?",
+        a: ["Viajar puede ayudar a aprender idioma y cultura", "Viajar siempre es fácil", "España es barata", "No es importante hablar español"],
+        c: 0
+      }
+    ]
+  },
+
+  {
+    level: "UTMANING",
+    title: "Texto 7 – El futuro",
+    text: `Este año he empezado a pensar más en mi futuro. Todavía no sé exactamente qué quiero hacer, pero me gustaría estudiar algo relacionado con idiomas, viajes o comunicación. Creo que aprender idiomas es importante porque permite entender otras culturas y hablar con personas de diferentes países. A veces es difícil estudiar, especialmente cuando hay muchas palabras nuevas, pero cuando noto que entiendo más, me siento motivado. En el futuro quizás quiero trabajar en otro país o estudiar en una universidad internacional.`,
+    questions: [
+      {
+        q: "¿Está seguro de su futuro?",
+        a: ["Sí, completamente", "No, todavía no", "Sí, quiere ser médico", "No quiere estudiar"],
+        c: 1
+      },
+      {
+        q: "¿Qué áreas le interesan?",
+        a: ["Idiomas, viajes o comunicación", "Matemáticas y ciencias", "Deporte y medicina", "Arte y música"],
+        c: 0
+      },
+      {
+        q: "¿Por qué son importantes los idiomas según el texto?",
+        a: ["Porque son fáciles", "Porque permiten entender otras culturas", "Porque todos hablan español", "Porque no hay palabras nuevas"],
+        c: 1
+      },
+      {
+        q: "¿Qué significa “quizás”?",
+        a: ["kanske", "alltid", "aldrig", "redan"],
+        c: 0
+      },
+      {
+        q: "¿Qué tipo de texto es?",
+        a: ["Una reflexión sobre el futuro", "Una receta", "Una noticia sobre España", "Una descripción de ropa"],
+        c: 0
+      }
+    ]
+  },
+
+  {
+    level: "UTMANING",
+    title: "Texto 8 – Medio ambiente y consumo",
+    text: `Creo que todos podemos hacer algo por el medio ambiente, aunque no siempre es fácil cambiar nuestros hábitos. En mi familia reciclamos papel, plástico y vidrio. También intentamos comprar menos ropa nueva porque la producción de ropa puede contaminar mucho. Antes compraba ropa sin pensar demasiado, pero ahora intento elegir mejor. No pienso que una sola persona pueda resolver todos los problemas, sin embargo creo que muchas pequeñas acciones juntas pueden tener un efecto importante.`,
+    questions: [
+      {
+        q: "¿Cuál es el tema principal?",
+        a: ["La escuela", "El medio ambiente y el consumo", "La familia en España", "La tecnología"],
+        c: 1
+      },
+      {
+        q: "¿Qué recicla la familia?",
+        a: ["Solo papel", "Papel, plástico y vidrio", "Solo ropa", "Comida y agua"],
+        c: 1
+      },
+      {
+        q: "¿Por qué intentan comprar menos ropa?",
+        a: ["Porque no les gusta la ropa", "Porque la producción puede contaminar", "Porque la ropa es siempre cara", "Porque no hay tiendas"],
+        c: 1
+      },
+      {
+        q: "¿Qué significa “sin embargo”?",
+        a: ["däremot", "därför", "också", "eftersom"],
+        c: 0
+      },
+      {
+        q: "¿Cuál es la opinión del hablante?",
+        a: ["Una persona puede resolver todo sola", "Las pequeñas acciones no importan", "Muchas pequeñas acciones pueden ser importantes", "Det är omöjligt att förändra något"],
+        c: 2
+      }
+    ]
+  }
+];
+
+function render() {
+  const container = document.getElementById("content");
+  let number = 1;
+
+  texts.forEach(item => {
+    const section = document.createElement("section");
+    section.className = "level";
+
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.textContent = item.level;
+    section.appendChild(badge);
+
+    const title = document.createElement("h2");
+    title.textContent = item.title;
+    section.appendChild(title);
+
+    const textBox = document.createElement("div");
+    textBox.className = "textbox";
+    textBox.innerHTML = `<p>${item.text}</p>`;
+    section.appendChild(textBox);
+
+    item.questions.forEach(q => {
+      total++;
+
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+
+      const qText = document.createElement("p");
+      qText.innerHTML = `<b>${number}. ${q.q}</b>`;
+      qDiv.appendChild(qText);
+
+      const feedback = document.createElement("p");
+      feedback.className = "feedback";
+
+      let locked = false;
+
+      q.a.forEach((answer, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = answer;
+
+        btn.onclick = () => {
+          if (locked) return;
+          locked = true;
+
+          const buttons = qDiv.querySelectorAll("button");
+          buttons.forEach(b => b.disabled = true);
+
+          if (index === q.c) {
+            btn.style.backgroundColor = "green";
+            feedback.textContent = "Rätt.";
+            feedback.className = "feedback correct";
+            score++;
+          } else {
+            btn.style.backgroundColor = "red";
+            buttons[q.c].style.backgroundColor = "green";
+            feedback.textContent = "Fel. Rätt svar: " + q.a[q.c];
+            feedback.className = "feedback wrong";
+          }
+
+          document.getElementById("score").textContent = score;
+        };
+
+        qDiv.appendChild(btn);
+      });
+
+      qDiv.appendChild(feedback);
+      section.appendChild(qDiv);
+      number++;
+    });
+
+    container.appendChild(section);
+  });
+
+  document.getElementById("total").textContent = total;
+}
+
+render();
+</script>
 
 </body>
+</html>
 </html>
