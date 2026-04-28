@@ -12,13 +12,9 @@ body {
   margin: auto;
   padding: 35px;
   line-height: 1.7;
-  background: white;
-  color: black;
 }
 
-h1 {
-  text-align: center;
-}
+h1 { text-align: center; }
 
 nav {
   text-align: center;
@@ -31,10 +27,304 @@ nav a {
   color: black;
 }
 
+.textbox {
+  border: 1px solid black;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-family: "Times New Roman", serif;
+  font-size: 18px;
+  border: 1px solid black;
+}
+
 button {
   display: block;
   width: 100%;
-  margin: 8px 0;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid black;
+  background: white;
+  font-family: "Times New Roman", serif;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eee;
+}
+
+.feedback {
+  font-weight: bold;
+}
+
+.correct { color: green; }
+.wrong { color: red; }
+
+.explain {
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.progress {
+  text-align: center;
+  font-weight: bold;
+}
+
+.result {
+  border: 1px solid black;
+  padding: 15px;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Lucktexter – skriv själv</h1>
+
+<nav>
+  <a href="index.html">Startsida</a>
+  <a href="grammatik.html">Grammatik</a>
+  <a href="lasforstaelse.html">Läsförståelse</a>
+</nav>
+
+<div id="app"></div>
+
+<script>
+
+function normalize(str) {
+  return str.toLowerCase().trim();
+}
+
+const texts = [
+
+{
+title: "1. Mi día",
+parts: [
+{before:"Normalmente yo ", after:" a las siete.", answer:["me levanto"], exp:"Yo + reflexivt verb → me levanto."},
+{before:"Después yo ", after:" desayuno.", answer:["desayuno"], exp:"Yo → desayuno."},
+{before:"Luego yo ", after:" a la escuela.", answer:["voy"], exp:"Ir → voy."},
+{before:"En la escuela yo ", after:" español.", answer:["estudio"], exp:"Yo → estudio."},
+{before:"Después yo ", after:" los deberes.", answer:["hago"], exp:"Hacer → hago."}
+]
+},
+
+{
+title: "2. Mi familia",
+parts: [
+{before:"En mi familia ", after:" cinco personas.", answer:["hay"], exp:"Det finns → hay."},
+{before:"Mi madre ", after:" Ana.", answer:["se llama"], exp:"Ella → se llama."},
+{before:"Mi padre ", after:" profesor.", answer:["es"], exp:"Yrke → ser."},
+{before:"Yo ", after:" dos hermanos.", answer:["tengo"], exp:"Tener → tengo."},
+{before:"Mis hermanos ", after:" mucho.", answer:["hablan"], exp:"Ellos → hablan."}
+]
+},
+
+{
+title: "3. En la escuela",
+parts: [
+{before:"Yo ", after:" muchas asignaturas.", answer:["tengo"], exp:"Jag har → tengo."},
+{before:"A mí me ", after:" el español.", answer:["gusta"], exp:"Singular → gusta."},
+{before:"A mí no me ", after:" las matemáticas.", answer:["gustan"], exp:"Plural → gustan."},
+{before:"Mi profesor ", after:" simpático.", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Después yo ", after:" a casa.", answer:["voy"], exp:"Ir → voy."}
+]
+},
+
+{
+title: "4. En una tienda",
+parts: [
+{before:"Yo ", after:" comprar una camiseta.", answer:["quiero"], exp:"Querer → quiero."},
+{before:"La camiseta ", after:" azul.", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Yo ", after:" talla mediana.", answer:["necesito"], exp:"Necesitar → necesito."},
+{before:"La dependienta ", after:" qué quiero.", answer:["pregunta"], exp:"Ella → pregunta."},
+{before:"Al final yo ", after:" la camiseta.", answer:["compro"], exp:"Comprar → compro."}
+]
+},
+
+{
+title: "5. El móvil",
+parts: [
+{before:"Yo ", after:" el móvil todos los días.", answer:["uso"], exp:"Yo → uso."},
+{before:"Yo ", after:" con mis amigos.", answer:["hablo"], exp:"Yo → hablo."},
+{before:"A mí me ", after:" el móvil.", answer:["gusta"], exp:"Singular → gusta."},
+{before:"Pero yo ", after:" demasiado tiempo.", answer:["paso"], exp:"Yo → paso."},
+{before:"Yo ", after:" usarlo menos.", answer:["quiero"], exp:"Querer → quiero."}
+]
+},
+
+{
+title: "6. Viajar",
+parts: [
+{before:"Este verano yo ", after:" a España.", answer:["voy a viajar"], exp:"Voy a + infinitiv."},
+{before:"Yo ", after:" la cultura.", answer:["quiero conocer"], exp:"Querer + infinitiv."},
+{before:"Yo ", after:" el idioma.", answer:["quiero practicar"], exp:"Querer + infinitiv."},
+{before:"Yo ", after:" un poco nervioso.", answer:["estoy"], exp:"Tillstånd → estar."},
+{before:"Viajar ", after:" importante.", answer:["es"], exp:"Beskrivning → ser."}
+]
+},
+
+{
+title: "7. El futuro",
+parts: [
+{before:"Yo ", after:" en mi futuro.", answer:["pienso"], exp:"Yo → pienso."},
+{before:"Yo no ", after:" qué hacer.", answer:["sé"], exp:"Saber → sé."},
+{before:"A mí me ", after:" los idiomas.", answer:["interesan"], exp:"Plural → interesan."},
+{before:"Los idiomas ", after:" útiles.", answer:["son"], exp:"Plural → son."},
+{before:"Yo ", after:" trabajar en otro país.", answer:["quiero"], exp:"Querer → quiero."}
+]
+},
+
+{
+title: "8. Medio ambiente",
+parts: [
+{before:"El medio ambiente ", after:" importante.", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Nosotros ", after:" papel.", answer:["reciclamos"], exp:"Nosotros → reciclamos."},
+{before:"Nosotros ", after:" menos ropa.", answer:["compramos"], exp:"Nosotros → compramos."},
+{before:"No es fácil, pero nosotros ", after:" intentar.", answer:["podemos"], exp:"Poder → podemos."},
+{before:"Pequeñas acciones ", after:" ayudar.", answer:["pueden"], exp:"Plural → pueden."}
+]
+},
+
+{
+title: "9. Opiniones",
+parts: [
+{before:"Yo ", after:" que es importante.", answer:["creo"], exp:"Creo que..."},
+{before:"Yo ", after:" de acuerdo.", answer:["estoy"], exp:"Estoy de acuerdo."},
+{before:"Yo no ", after:" de acuerdo.", answer:["estoy"], exp:"Estoy de acuerdo."},
+{before:"En mi opinión esto ", after:" bueno.", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Esto ", after:" una buena idea.", answer:["es"], exp:"Es una buena idea."}
+]
+},
+
+{
+title: "10. Repetition",
+parts: [
+{before:"Yo ", after:" quince años.", answer:["tengo"], exp:"Ålder → tener."},
+{before:"A mí me ", after:" el español.", answer:["gusta"], exp:"Singular → gusta."},
+{before:"Yo ", after:" español.", answer:["estudio"], exp:"Yo → estudio."},
+{before:"Yo ", after:" a España.", answer:["voy"], exp:"Yo → voy."},
+{before:"España ", after:" en Europa.", answer:["está"], exp:"Plats → estar."}
+]
+}
+
+];
+
+let currentText = null;
+let currentPart = 0;
+let score = 0;
+
+function showMenu() {
+  const app = document.getElementById("app");
+  app.innerHTML = "<h2>Välj text</h2>";
+
+  texts.forEach((t, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = t.title;
+    btn.onclick = () => startText(i);
+    app.appendChild(btn);
+  });
+}
+
+function startText(i) {
+  currentText = texts[i];
+  currentPart = 0;
+  score = 0;
+  renderPart();
+}
+
+function renderPart() {
+  const app = document.getElementById("app");
+  const part = currentText.parts[currentPart];
+
+  app.innerHTML = "";
+
+  const progress = document.createElement("div");
+  progress.className = "progress";
+  progress.textContent = "Lucka " + (currentPart + 1) + " av " + currentText.parts.length;
+  app.appendChild(progress);
+
+  const box = document.createElement("div");
+  box.className = "textbox";
+  box.innerHTML = part.before + "<b>______</b>" + part.after;
+  app.appendChild(box);
+
+  const input = document.createElement("input");
+  app.appendChild(input);
+
+  const feedback = document.createElement("p");
+  const explain = document.createElement("p");
+
+  const btn = document.createElement("button");
+  btn.textContent = "Kontrollera";
+
+  btn.onclick = () => {
+    const val = normalize(input.value);
+    const correct = part.answer.some(a => normalize(a) === val);
+
+    if (correct) {
+      feedback.textContent = "Rätt.";
+      feedback.className = "correct";
+      score++;
+    } else {
+      feedback.textContent = "Fel. Rätt svar: " + part.answer[0];
+      feedback.className = "wrong";
+    }
+
+    explain.textContent = part.exp;
+
+    const next = document.createElement("button");
+    next.textContent = currentPart + 1 < currentText.parts.length ? "Nästa" : "Resultat";
+
+    next.onclick = () => {
+      currentPart++;
+      if (currentPart < currentText.parts.length) {
+        renderPart();
+      } else {
+        showResult();
+      }
+    };
+
+    app.appendChild(feedback);
+    app.appendChild(explain);
+    app.appendChild(next);
+  };
+
+  app.appendChild(btn);
+
+  const back = document.createElement("button");
+  back.textContent = "Tillbaka";
+  back.onclick = showMenu;
+  app.appendChild(back);
+}
+
+function showResult() {
+  const app = document.getElementById("app");
+  const percent = Math.round((score / currentText.parts.length) * 100);
+
+  app.innerHTML = `
+    <div class="result">
+      <h2>Resultat</h2>
+      <p>${score} / ${currentText.parts.length}</p>
+      <p>${percent}%</p>
+    </div>
+  `;
+
+  const menu = document.createElement("button");
+  menu.textContent = "Tillbaka";
+  menu.onclick = showMenu;
+  app.appendChild(menu);
+}
+
+showMenu();
+
+</script>
+
+</body>
+</html>  margin: 8px 0;
   padding: 10px;
   border: 1px solid black;
   background: white;
