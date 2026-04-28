@@ -22,7 +22,7 @@ h1 {
 
 nav {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 nav a {
@@ -34,7 +34,7 @@ nav a {
 button {
   display: block;
   width: 100%;
-  margin: 8px 0;
+  margin: 10px 0;
   padding: 10px;
   border: 1px solid black;
   background: white;
@@ -51,17 +51,23 @@ button:hover {
 input {
   width: 100%;
   padding: 10px;
-  font-family: "Times New Roman", serif;
   font-size: 18px;
+  font-family: "Times New Roman", serif;
   border: 1px solid black;
   margin: 10px 0;
 }
 
 .textbox {
   border: 1px solid black;
-  padding: 15px;
+  padding: 18px;
   margin: 20px 0;
   font-size: 20px;
+}
+
+.hint {
+  font-size: 16px;
+  font-style: italic;
+  margin-top: 8px;
 }
 
 .progress {
@@ -91,6 +97,12 @@ input {
   padding: 15px;
   margin-top: 20px;
 }
+
+.saved {
+  border: 1px solid black;
+  padding: 12px;
+  margin-top: 25px;
+}
 </style>
 </head>
 
@@ -102,82 +114,177 @@ input {
   <a href="index.html">Startsida</a>
   <a href="grammatik.html">Grammatik</a>
   <a href="lasforstaelse.html">Läsförståelse</a>
-  <a href="diagnos.html">Diagnos</a>
 </nav>
 
 <div id="app"></div>
 
 <script>
 function normalize(str) {
-  return str.toLowerCase().trim();
+  return str
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 const texts = [
-  {
-    title: "1. Presens – Mi día",
-    parts: [
-      {before:"Yo ", after:" a las siete.", answer:["me levanto"], exp:"Yo + reflexivt verb → me levanto."},
-      {before:"Yo ", after:" en casa.", answer:["desayuno"], exp:"Yo → desayuno."},
-      {before:"Yo ", after:" a la escuela.", answer:["voy"], exp:"Yo → voy."},
-      {before:"Yo ", after:" español.", answer:["estudio"], exp:"Yo → estudio."},
-      {before:"Yo ", after:" los deberes.", answer:["hago"], exp:"Yo → hago."}
-    ]
-  },
 
-  {
-    title: "2. Presens – Familia",
-    parts: [
-      {before:"En mi familia ", after:" cinco personas.", answer:["hay"], exp:"Det finns → hay."},
-      {before:"Mi madre ", after:" Ana.", answer:["se llama"], exp:"Mi madre = ella → se llama."},
-      {before:"Mi padre ", after:" profesor.", answer:["es"], exp:"Yrke/identitet → ser."},
-      {before:"Yo ", after:" dos hermanos.", answer:["tengo"], exp:"Yo → tengo."},
-      {before:"Mis hermanos ", after:" mucho.", answer:["hablan"], exp:"Mis hermanos = ellos → hablan."}
-    ]
-  },
+{
+title:"1. Presens – Mi día",
+description:"Träna presens och reflexiva verb i vardagsrutiner.",
+parts:[
+{before:"Yo ", after:" a las siete.", hint:"levantarse", answer:["me levanto"], exp:"Yo + levantarse → me levanto."},
+{before:"Yo ", after:" en casa.", hint:"desayunar", answer:["desayuno"], exp:"Yo → desayuno."},
+{before:"Yo ", after:" a la escuela.", hint:"ir", answer:["voy"], exp:"Yo + ir → voy."},
+{before:"Yo ", after:" español.", hint:"estudiar", answer:["estudio"], exp:"Yo → estudio."},
+{before:"Yo ", after:" los deberes.", hint:"hacer", answer:["hago"], exp:"Yo + hacer → hago."},
+{before:"Por la noche yo ", after:" a las diez.", hint:"acostarse", answer:["me acuesto"], exp:"Yo + acostarse → me acuesto."}
+]
+},
 
-  {
-    title: "3. Presens – Escuela",
-    parts: [
-      {before:"Yo ", after:" muchas asignaturas.", answer:["tengo"], exp:"Yo → tengo."},
-      {before:"A mí me ", after:" el español.", answer:["gusta"], exp:"El español är singular → gusta."},
-      {before:"A mí no me ", after:" las matemáticas.", answer:["gustan"], exp:"Las matemáticas är plural → gustan."},
-      {before:"Mi profesor ", after:" simpático.", answer:["es"], exp:"Beskrivning → ser."},
-      {before:"Después yo ", after:" a casa.", answer:["voy"], exp:"Yo → voy."}
-    ]
-  },
+{
+title:"2. Presens – Mi familia",
+description:"Träna ser, tener, hay och verb i tredje person.",
+parts:[
+{before:"En mi familia ", after:" cinco personas.", hint:"haber", answer:["hay"], exp:"Det finns → hay."},
+{before:"Mi madre ", after:" Laura.", hint:"llamarse", answer:["se llama"], exp:"Mi madre = ella → se llama."},
+{before:"Mi padre ", after:" profesor.", hint:"ser", answer:["es"], exp:"Yrke/identitet → ser."},
+{before:"Yo ", after:" dos hermanas.", hint:"tener", answer:["tengo"], exp:"Yo + tener → tengo."},
+{before:"Mis hermanas ", after:" mucho.", hint:"hablar", answer:["hablan"], exp:"Mis hermanas = ellas → hablan."},
+{before:"Nosotros ", after:" tiempo juntos los fines de semana.", hint:"pasar", answer:["pasamos"], exp:"Nosotros → pasamos."}
+]
+},
 
-  {
-    title: "4. Perfekt – Hoy",
-    parts: [
-      {before:"Hoy yo he ", after:" español.", answer:["estudiado"], exp:"He + particip → estudiado."},
-      {before:"Hoy yo he ", after:" música.", answer:["escuchado"], exp:"He + particip → escuchado."},
-      {before:"Hoy yo he ", after:" los deberes.", answer:["hecho"], exp:"Hacer → hecho."},
-      {before:"Hoy yo he ", after:" una película.", answer:["visto"], exp:"Ver → visto."},
-      {before:"Hoy yo he ", after:" pizza.", answer:["comido"], exp:"Comer → comido."}
-    ]
-  },
+{
+title:"3. Presens – En la escuela",
+description:"Träna skola, gustar, ser och ir.",
+parts:[
+{before:"Yo ", after:" muchas asignaturas.", hint:"tener", answer:["tengo"], exp:"Yo + tener → tengo."},
+{before:"A mí me ", after:" el español.", hint:"gustar", answer:["gusta"], exp:"El español är singular → gusta."},
+{before:"A mí no me ", after:" las matemáticas.", hint:"gustar", answer:["gustan"], exp:"Las matemáticas är plural → gustan."},
+{before:"Mi profesor ", after:" simpático.", hint:"ser", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Las clases ", after:" a las ocho.", hint:"empezar", answer:["empiezan"], exp:"Las clases = ellas → empiezan."},
+{before:"Después yo ", after:" a casa.", hint:"ir", answer:["voy"], exp:"Yo + ir → voy."}
+]
+},
 
-  {
-    title: "5. Perfekt – Nosotros",
-    parts: [
-      {before:"Nosotros hemos ", after:" al cine.", answer:["ido"], exp:"Hemos + particip → ido."},
-      {before:"Nosotros hemos ", after:" español.", answer:["estudiado"], exp:"Hemos + particip → estudiado."},
-      {before:"Nosotros hemos ", after:" comida española.", answer:["probado"], exp:"Probar → probado."},
-      {before:"Nosotros hemos ", after:" con amigos.", answer:["hablado"], exp:"Hablar → hablado."},
-      {before:"Nosotros hemos ", after:" una serie.", answer:["visto"], exp:"Ver → visto."}
-    ]
-  },
+{
+title:"4. Presens – En una tienda",
+description:"Träna kläder, köpa, vilja och beskrivningar.",
+parts:[
+{before:"Yo ", after:" comprar una camiseta.", hint:"querer", answer:["quiero"], exp:"Yo + querer → quiero."},
+{before:"La camiseta ", after:" azul.", hint:"ser", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Yo ", after:" talla mediana.", hint:"necesitar", answer:["necesito"], exp:"Yo → necesito."},
+{before:"La dependienta me ", after:" qué talla necesito.", hint:"preguntar", answer:["pregunta"], exp:"La dependienta = ella → pregunta."},
+{before:"Al final yo ", after:" la camiseta.", hint:"comprar", answer:["compro"], exp:"Yo → compro."},
+{before:"La camiseta no ", after:" muy cara.", hint:"ser", answer:["es"], exp:"Beskrivning → ser."}
+]
+},
 
-  {
-    title: "6. Blandat – Presens och perfekt",
-    parts: [
-      {before:"Yo ", after:" quince años.", answer:["tengo"], exp:"Ålder uttrycks med tener."},
-      {before:"Yo ", after:" en Suecia.", answer:["vivo"], exp:"Yo → vivo."},
-      {before:"Yo he ", after:" mucho español.", answer:["estudiado"], exp:"He + particip → estudiado."},
-      {before:"A mí me ", after:" viajar.", answer:["gusta"], exp:"Infinitiv → gusta."},
-      {before:"Yo he ", after:" en España.", answer:["estado"], exp:"Estar → estado."}
-    ]
-  }
+{
+title:"5. Presens – El móvil",
+description:"Träna presens, åsikter och mobilanvändning.",
+parts:[
+{before:"Yo ", after:" el móvil todos los días.", hint:"usar", answer:["uso"], exp:"Yo → uso."},
+{before:"Yo ", after:" con mis amigos.", hint:"hablar", answer:["hablo"], exp:"Yo → hablo."},
+{before:"A mí me ", after:" el móvil.", hint:"gustar", answer:["gusta"], exp:"El móvil är singular → gusta."},
+{before:"Pero yo ", after:" demasiado tiempo con él.", hint:"pasar", answer:["paso"], exp:"Yo → paso."},
+{before:"Mis padres ", after:" que debería usarlo menos.", hint:"decir", answer:["dicen"], exp:"Mis padres = ellos → dicen."},
+{before:"Yo ", after:" usarlo de forma responsable.", hint:"intentar", answer:["intento"], exp:"Yo → intento."}
+]
+},
+
+{
+title:"6. Perfekt – Hoy",
+description:"Träna perfekt med yo he + particip.",
+parts:[
+{before:"Hoy yo he ", after:" español.", hint:"estudiar", answer:["estudiado"], exp:"He + particip → estudiado."},
+{before:"Hoy yo he ", after:" música.", hint:"escuchar", answer:["escuchado"], exp:"Escuchar → escuchado."},
+{before:"Hoy yo he ", after:" los deberes.", hint:"hacer", answer:["hecho"], exp:"Hacer → hecho."},
+{before:"Hoy yo he ", after:" una película.", hint:"ver", answer:["visto"], exp:"Ver → visto."},
+{before:"Hoy yo he ", after:" pizza.", hint:"comer", answer:["comido"], exp:"Comer → comido."},
+{before:"Hoy yo he ", after:" con mis amigos.", hint:"hablar", answer:["hablado"], exp:"Hablar → hablado."}
+]
+},
+
+{
+title:"7. Perfekt – Nosotros",
+description:"Träna perfekt med nosotros hemos + particip.",
+parts:[
+{before:"Nosotros hemos ", after:" al cine.", hint:"ir", answer:["ido"], exp:"Ir → ido."},
+{before:"Nosotros hemos ", after:" español.", hint:"estudiar", answer:["estudiado"], exp:"Estudiar → estudiado."},
+{before:"Nosotros hemos ", after:" comida española.", hint:"probar", answer:["probado"], exp:"Probar → probado."},
+{before:"Nosotros hemos ", after:" con amigos.", hint:"hablar", answer:["hablado"], exp:"Hablar → hablado."},
+{before:"Nosotros hemos ", after:" una serie.", hint:"ver", answer:["visto"], exp:"Ver → visto."},
+{before:"Nosotros hemos ", after:" mucho esta semana.", hint:"trabajar", answer:["trabajado"], exp:"Trabajar → trabajado."}
+]
+},
+
+{
+title:"8. Presens och perfekt – Blandat",
+description:"Träna skillnaden mellan vad man gör och vad man har gjort.",
+parts:[
+{before:"Yo ", after:" quince años.", hint:"tener", answer:["tengo"], exp:"Ålder uttrycks med tener."},
+{before:"Yo ", after:" en Suecia.", hint:"vivir", answer:["vivo"], exp:"Yo → vivo."},
+{before:"Yo he ", after:" mucho español.", hint:"estudiar", answer:["estudiado"], exp:"He + particip → estudiado."},
+{before:"A mí me ", after:" viajar.", hint:"gustar", answer:["gusta"], exp:"Infinitiv → gusta."},
+{before:"Yo he ", after:" en España.", hint:"estar", answer:["estado"], exp:"Estar → estado."},
+{before:"Yo ", after:" español porque es útil.", hint:"estudiar", answer:["estudio"], exp:"Presens: yo estudio."}
+]
+},
+
+{
+title:"9. Framtid – Ir a + infinitiv",
+description:"Träna framtid med voy a, vas a, vamos a.",
+parts:[
+{before:"Yo ", after:" estudiar mañana.", hint:"ir a", answer:["voy a"], exp:"Yo → voy a."},
+{before:"Tú ", after:" viajar este verano.", hint:"ir a", answer:["vas a"], exp:"Tú → vas a."},
+{before:"Ella ", after:" trabajar mañana.", hint:"ir a", answer:["va a"], exp:"Ella → va a."},
+{before:"Nosotros ", after:" visitar Madrid.", hint:"ir a", answer:["vamos a"], exp:"Nosotros → vamos a."},
+{before:"Mis amigos ", after:" jugar al fútbol.", hint:"ir a", answer:["van a"], exp:"Mis amigos = ellos → van a."},
+{before:"Yo ", after:" comprar ropa.", hint:"ir a", answer:["voy a"], exp:"Yo → voy a."}
+]
+},
+
+{
+title:"10. Tener que + infinitiv",
+description:"Träna att uttrycka måste.",
+parts:[
+{before:"Yo ", after:" estudiar hoy.", hint:"tener que", answer:["tengo que"], exp:"Yo → tengo que."},
+{before:"Tú ", after:" hacer los deberes.", hint:"tener que", answer:["tienes que"], exp:"Tú → tienes que."},
+{before:"Ella ", after:" levantarse temprano.", hint:"tener que", answer:["tiene que"], exp:"Ella → tiene que."},
+{before:"Nosotros ", after:" practicar más.", hint:"tener que", answer:["tenemos que"], exp:"Nosotros → tenemos que."},
+{before:"Mis amigos ", after:" leer el texto.", hint:"tener que", answer:["tienen que"], exp:"Mis amigos = ellos → tienen que."},
+{before:"Yo no ", after:" trabajar mañana.", hint:"tener que", answer:["tengo que"], exp:"No tengo que = jag måste inte."}
+]
+},
+
+{
+title:"11. Ser / estar / hay",
+description:"Träna ser, estar och hay i sammanhang.",
+parts:[
+{before:"Madrid ", after:" en España.", hint:"estar", answer:["está"], exp:"Plats → estar."},
+{before:"Mi escuela ", after:" grande.", hint:"ser", answer:["es"], exp:"Beskrivning → ser."},
+{before:"En mi clase ", after:" muchos estudiantes.", hint:"haber", answer:["hay"], exp:"Det finns → hay."},
+{before:"Yo ", after:" cansado hoy.", hint:"estar", answer:["estoy"], exp:"Tillfälligt tillstånd → estar."},
+{before:"Barcelona ", after:" una ciudad bonita.", hint:"ser", answer:["es"], exp:"Definition/beskrivning → ser."},
+{before:"La puerta ", after:" abierta.", hint:"estar", answer:["está"], exp:"Tillstånd → estar."}
+]
+},
+
+{
+title:"12. Opiniones",
+description:"Träna åsiktsfraser och sambandsord.",
+parts:[
+{before:"Yo ", after:" que el español es importante.", hint:"creer", answer:["creo"], exp:"Yo → creo."},
+{before:"Yo ", after:" de acuerdo.", hint:"estar", answer:["estoy"], exp:"Estoy de acuerdo."},
+{before:"Yo no ", after:" de acuerdo.", hint:"estar", answer:["estoy"], exp:"No estoy de acuerdo."},
+{before:"En mi opinión, esto ", after:" importante.", hint:"ser", answer:["es"], exp:"Beskrivning → ser."},
+{before:"Esto ", after:" una buena idea.", hint:"ser", answer:["es"], exp:"Es una buena idea."},
+{before:"Yo ", after:" que estudiar idiomas es útil.", hint:"pensar", answer:["pienso"], exp:"Yo → pienso."}
+]
+}
+
 ];
 
 let currentText = null;
@@ -186,7 +293,7 @@ let score = 0;
 
 function showMenu() {
   const app = document.getElementById("app");
-  app.innerHTML = "<h2>Välj lucktext</h2><p>Eleven skriver själv svaret i luckan. Fokus ligger på presens och perfekt.</p>";
+  app.innerHTML = "<h2>Välj lucktext</h2><p>Eleven skriver själv svaret. Verb eller struktur står inom parentes.</p>";
 
   texts.forEach((text, index) => {
     const btn = document.createElement("button");
@@ -194,6 +301,26 @@ function showMenu() {
     btn.onclick = () => startText(index);
     app.appendChild(btn);
   });
+
+  const saved = document.createElement("div");
+  saved.className = "saved";
+  saved.innerHTML = "<h2>Sparade resultat på denna enhet</h2>";
+
+  let hasSaved = false;
+
+  texts.forEach(text => {
+    const value = localStorage.getItem("lucktext_" + text.title);
+    if (value !== null) {
+      hasSaved = true;
+      const p = document.createElement("p");
+      p.textContent = text.title + ": " + value + "%";
+      saved.appendChild(p);
+    }
+  });
+
+  if (hasSaved) {
+    app.appendChild(saved);
+  }
 }
 
 function startText(index) {
@@ -213,6 +340,10 @@ function renderPart() {
   title.textContent = currentText.title;
   app.appendChild(title);
 
+  const description = document.createElement("p");
+  description.textContent = currentText.description;
+  app.appendChild(description);
+
   const progress = document.createElement("div");
   progress.className = "progress";
   progress.textContent = "Lucka " + (currentPart + 1) + " av " + currentText.parts.length;
@@ -220,7 +351,11 @@ function renderPart() {
 
   const box = document.createElement("div");
   box.className = "textbox";
-  box.innerHTML = part.before + "<b>______</b>" + part.after;
+  box.innerHTML =
+    part.before +
+    "<b>______</b>" +
+    part.after +
+    "<div class='hint'>(" + part.hint + ")</div>";
   app.appendChild(box);
 
   const input = document.createElement("input");
@@ -250,6 +385,7 @@ function renderPart() {
     }
 
     explanation.textContent = part.exp;
+
     input.disabled = true;
     check.disabled = true;
 
@@ -273,14 +409,18 @@ function renderPart() {
   app.appendChild(check);
 
   const back = document.createElement("button");
-  back.textContent = "Tillbaka till lucktexter";
+  back.textContent = "Tillbaka till alla lucktexter";
   back.onclick = showMenu;
   app.appendChild(back);
+
+  input.focus();
 }
 
 function showResult() {
   const app = document.getElementById("app");
   const percent = Math.round((score / currentText.parts.length) * 100);
+
+  localStorage.setItem("lucktext_" + currentText.title, percent);
 
   app.innerHTML = `
     <div class="result">
